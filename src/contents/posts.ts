@@ -13,6 +13,7 @@ export const posts = (function (): Posts {
     result[slug] = {
       content: markdown.content,
       frontmatter: markdown.frontmatter,
+      headings: markdown.headings,
     };
   }
 
@@ -26,11 +27,11 @@ export const postIndex = (function (): PostIndex {
     const post = posts[slug];
     if (post === undefined) continue;
 
-    const { section, group: type } = post.frontmatter;
+    const { section, group } = post.frontmatter;
     const groups = index[section];
-    const list = groups[type] ?? [];
+    const list = groups[group] ?? [];
     list.push(slug);
-    groups[type] = list;
+    groups[group] = list;
   }
 
   return index;

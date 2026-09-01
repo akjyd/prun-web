@@ -2,14 +2,15 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
-import { useOutletContext, useParams } from "react-router";
-import { posts } from "../content/posts";
+import { useParams } from "react-router";
+import { posts } from "../contents/posts";
 import NotFound from "./NotFound";
 import type { Post, Section } from "../types/content";
+import { useSection } from "../contexts/SectionContext";
 
 export default function Content() {
   const { slug } = useParams();
-  const section = useOutletContext<Section>();
+  const section = useSection();
 
   const post = findPost(slug, section);
 

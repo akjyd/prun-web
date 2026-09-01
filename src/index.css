@@ -22,3 +22,14 @@ body {
 .right-sidebar {
   background-color: #555555;
 }
+
+.left-sidebar,
+.right-sidebar {
+  position: sticky;
+  top: 0;
+  align-self: start;
+}
+
+.highlight {
+  background-color: pink;
+}

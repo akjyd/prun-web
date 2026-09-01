@@ -1,26 +1,15 @@
-import { Link } from "react-router";
-import { posts, postIndex } from "../content/posts";
-import type { Section } from "../types/content";
+import { postIndex } from "../contents/posts";
+import Group from "./SidebarGroup";
+import { useSection } from "../contexts/SectionContext";
 
-export default function LeftSidebar({ section }: { section: Section }) {
+export default function LeftSidebar() {
+  const section = useSection();
   const groups = postIndex[section];
 
   return (
     <div className="left-sidebar">
-      {Object.entries(groups).map(([type, slugs]) => (
-        <div key={type}>
-          {type}
-          {slugs.map((slug) => {
-            const post = posts[slug];
-            if (post === undefined) return null;
-
-            return (
-              <Link key={slug} to={`/${section}/${slug}`}>
-                {post.frontmatter.title}
-              </Link>
-            );
-          })}
-        </div>
+      {Object.entries(groups).map(([group, slugs]) => (
+        <Group key={group} group={group} slugs={slugs} />
       ))}
     </div>
   );

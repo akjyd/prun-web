@@ -6,23 +6,29 @@ import ReferenceHome from "./routes/ReferenceHome";
 import Content from "./components/Content";
 import NotFound from "./components/NotFound";
 import DocsLayout from "./routes/DocsLayout";
+import { OpenGroupsProvider } from "./contexts/OpenGroupsProvider";
 
 function App() {
   return (
     <>
       <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/tutorial" element={<DocsLayout section="tutorial" />}>
-          <Route index element={<TutorialHome />} />
-          <Route path=":slug" element={<Content />} />
-        </Route>
-        <Route path="/reference" element={<DocsLayout section="reference" />}>
-          <Route index element={<ReferenceHome />} />
-          <Route path=":slug" element={<Content />} />
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <OpenGroupsProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+
+          <Route path="/tutorial" element={<DocsLayout section="tutorial" />}>
+            <Route index element={<TutorialHome />} />
+            <Route path=":slug" element={<Content />} />
+          </Route>
+
+          <Route path="/reference" element={<DocsLayout section="reference" />}>
+            <Route index element={<ReferenceHome />} />
+            <Route path=":slug" element={<Content />} />
+          </Route>
+
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </OpenGroupsProvider>
     </>
   );
 }
