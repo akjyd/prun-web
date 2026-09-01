@@ -2,8 +2,24 @@
   margin: 0;
 }
 
+:root {
+  --body-bg: white;
+  --content-bg: white;
+  --left-sidebar-bg: white;
+  --right-sidebar-bg: white;
+  --highlight-bg: green;
+}
+
+[data-theme="dark"] {
+  --body-bg: grey;
+  --content-bg: #a0a0a0;
+  --left-sidebar-bg: #999999;
+  --right-sidebar-bg: #555555;
+  --highlight-bg: pink;
+}
+
 body {
-  background-color: grey;
+  background-color: var(--body-bg);
 }
 
 .main-layout {
@@ -12,15 +28,15 @@ body {
 }
 
 .content {
-  background-color: #a0a0a0;
+  background-color: var(--content-bg);
 }
 
 .left-sidebar {
-  background-color: #999999;
+  background-color: var(--left-sidebar-bg);
 }
 
 .right-sidebar {
-  background-color: #555555;
+  background-color: var(--right-sidebar-bg);
 }
 
 .left-sidebar,
@@ -31,5 +47,5 @@ body {
 }
 
 .highlight {
-  background-color: pink;
+  background-color: var(--highlight-bg);
 }

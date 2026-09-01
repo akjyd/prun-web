@@ -4,6 +4,32 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      const islight = window.matchMedia(
+        "(prefers-color-scheme: light)",
+      ).matches;
+
+      let localTheme;
+      try {
+        localTheme = localStorage.getItem("theme");
+      } catch {
+        console.log("异常的localStorage读取");
+        localTheme = undefined;
+      }
+
+      let theme;
+      if (isTheme(localTheme)) theme = localTheme;
+      else theme = islight ? "light" : "dark";
+
+      document.documentElement.setAttribute("data-theme", theme);
+
+      function isTheme(localTheme) {
+        return (
+          localTheme !== undefined &&
+          (localTheme === "light" || localTheme === "dark")
+        );
+      }
+    </script>
     <title>prun-wiki-web</title>
   </head>
   <body>
