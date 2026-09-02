@@ -11,11 +11,11 @@ export default function Header() {
       <Link to="/">首页</Link>
       <Link to="/tutorial">教程</Link>
       <Link to="/reference">参考</Link>
-      <button onClick={handleClick}>{theme === "light" ? "☀️" : "🌙"}</button>
+      <button onClick={handleTheme}>{theme === "light" ? "☀️" : "🌙"}</button>
     </>
   );
 
-  function handleClick() {
+  function handleTheme() {
     const newTheme: Theme = theme === "light" ? "dark" : "light";
     toggleTheme(newTheme);
   }

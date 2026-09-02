@@ -4,6 +4,7 @@
 
 :root {
   --body-bg: white;
+  --body-bg-overlay: rgba(255, 255, 255, 0.5);
   --content-bg: white;
   --left-sidebar-bg: white;
   --right-sidebar-bg: white;
@@ -12,6 +13,7 @@
 
 [data-theme="dark"] {
   --body-bg: grey;
+  --body-bg-overlay: rgba(128, 128, 128, 0.5);
   --content-bg: #a0a0a0;
   --left-sidebar-bg: #999999;
   --right-sidebar-bg: #555555;
@@ -48,4 +50,57 @@ body {
 
 .highlight {
   background-color: var(--highlight-bg);
+}
+
+.hamburger {
+  display: none;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: var(--body-bg-overlay);
+  cursor: pointer;
+  z-index: 98;
+}
+
+/* 适配较窄屏幕 */
+@media (max-width: 1280px) {
+  .main-layout {
+    grid-template-columns: 1fr 3fr;
+  }
+
+  .right-sidebar {
+    display: none;
+  }
+}
+
+/* 适配移动端 */
+@media (max-width: 640px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .left-sidebar {
+    position: fixed;
+    transform: translateX(-100%);
+    z-index: 99;
+  }
+
+  .left-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .overlay.open {
+    display: block;
+  }
+
+  .hamburger {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+  }
 }
