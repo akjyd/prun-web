@@ -9,6 +9,8 @@
   --left-sidebar-bg: white;
   --right-sidebar-bg: white;
   --highlight-bg: green;
+
+  --header-height: 10dvh;
 }
 
 [data-theme="dark"] {
@@ -24,6 +26,12 @@ body {
   background-color: var(--body-bg);
 }
 
+.header {
+  position: sticky;
+  top: 0;
+  height: var(--header-height);
+}
+
 .main-layout {
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
@@ -31,6 +39,10 @@ body {
 
 .content {
   background-color: var(--content-bg);
+
+  :is(h1, h2, h3, h4, h5, h6) {
+    scroll-margin-top: var(--header-height);
+  }
 }
 
 .left-sidebar {
@@ -44,8 +56,8 @@ body {
 .left-sidebar,
 .right-sidebar {
   position: sticky;
-  top: 0;
-  align-self: start;
+  top: var(--header-height);
+  height: calc(100dvh - var(--header-height));
 }
 
 .highlight {
@@ -63,6 +75,22 @@ body {
   background-color: var(--body-bg-overlay);
   cursor: pointer;
   z-index: 98;
+}
+
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  outline: none;
+
+  &::backdrop {
+    background: var(--body-bg-overlay);
+  }
 }
 
 /* 适配较窄屏幕 */

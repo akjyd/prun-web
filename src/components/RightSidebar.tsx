@@ -1,14 +1,12 @@
-import { useMatch } from "react-router";
+import { useParams } from "react-router";
 import { posts } from "../contents/posts";
-import { useSection } from "../contexts/SectionContext";
 import { useEffect, useState } from "react";
 
 const LINE_RATIO = 0.1;
 
 export default function RightSidebar() {
-  const section = useSection();
-  const match = useMatch(`/${section}/:slug`);
-  const headings = posts[match?.params.slug ?? ""]?.headings;
+  const { slug } = useParams();
+  const headings = posts[slug ?? ""]?.headings;
 
   const [highlightId, setHighlightId] = useState<string | null>(null);
 
@@ -56,7 +54,7 @@ export default function RightSidebar() {
     }
   }, [headings]);
 
-  const links = headings?.map(({ text, id }) => (
+  const links = headings?.map(({ headingContent: text, id }) => (
     <a
       href={"#" + id}
       key={id}

@@ -1,6 +1,5 @@
 import { posts } from "../contents/posts";
-import { Link, useMatch } from "react-router";
-import { useSection } from "../contexts/SectionContext";
+import { Link, useParams } from "react-router";
 import { useOpenGroups } from "../contexts/OpenGroupsContext";
 
 export default function SidebarGroup({
@@ -10,10 +9,9 @@ export default function SidebarGroup({
   group: string;
   slugs: string[];
 }) {
-  const section = useSection();
   const { openGroups, toggleGroup } = useOpenGroups();
-  const match = useMatch(`/${section}/:slug`);
-  const currentSlug = match?.params.slug;
+  const { section, slug } = useParams();
+  const currentSlug = slug;
 
   const key = section + group;
   const isGroupOpen =

@@ -2,17 +2,27 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { posts } from "../contents/posts";
 import NotFound from "./NotFound";
-import type { Post, Section } from "../types/content";
-import { useSection } from "../contexts/SectionContext";
+import type { Post } from "../types/content";
+import { useEffect } from "react";
 
 export default function Content() {
-  const { slug } = useParams();
-  const section = useSection();
+  const { section, slug } = useParams();
+  const { hash } = useLocation();
 
   const post = findPost(slug, section);
+
+  //适配搜索功能的滚动到标题处
+  useEffect(() => {
+    try {
+      const el = document.getElementById(decodeURIComponent(hash.slice(1)));
+      el?.scrollIntoView({ behavior: "smooth" });
+    } catch (e) {
+      console.warn("错误的hash地址", e);
+    }
+  }, [slug, hash]);
 
   if (post === undefined) return <NotFound />;
 
@@ -28,13 +38,13 @@ export default function Content() {
 
 function findPost(
   slug: string | undefined,
-  section: Section,
+  section: string | undefined,
 ): Post | undefined {
   if (slug === undefined) return undefined;
 
   const post = posts[slug];
   if (post === undefined) return undefined;
-  if (post.frontmatter.section !== section) return undefined;
+  if (post.section !== section) return undefined;
 
   return post;
 }

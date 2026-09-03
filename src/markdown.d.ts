@@ -1,5 +1,8 @@
 declare module "*.md" {
-  export const frontmatter: import("./types/content").Frontmatter;
-  export const content: string;
-  export const headings: import("./types/content").Headings;
+  type M = import("./types/content").MarkdownModule;
+
+  export const frontmatter: M["frontmatter"];
+  export const content: M["content"];
+  export const headings: M["headings"];
+  export const searchChunks: M["searchChunks"];
 }
