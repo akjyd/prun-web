@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      主题必须在首屏绘制前定好，否则深色用户刷新会闪一下白。
+      这段脚本是同步阻塞的，跑完 <html> 上才有 data-theme，CSS 一次匹配到位。
+      React 里的 useTheme 只负责读取这个属性，判断逻辑只在这里有一份。
+    -->
     <script>
       const islight = window.matchMedia(
         "(prefers-color-scheme: light)",
@@ -13,7 +18,7 @@
       try {
         localTheme = localStorage.getItem("theme");
       } catch {
-        console.log("异常的localStorage读取");
+        console.warn("读取 localStorage 失败，本次按系统偏好显示");
         localTheme = undefined;
       }
 

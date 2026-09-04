@@ -1,10 +1,18 @@
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import LeftSidebar from "../components/LeftSidebar";
 import RightSidebar from "../components/RightSidebar";
 import { useState } from "react";
 
 export default function DocsLayout() {
   const [hamOpen, setHamOpen] = useState<boolean>(false);
+  const pathname = useLocation().pathname;
+
+  //换了地址就关抽屉
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    setHamOpen(false);
+  }
 
   return (
     <>

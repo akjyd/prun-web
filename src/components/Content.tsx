@@ -14,9 +14,17 @@ export default function Content() {
 
   const post = findPost(slug, section);
 
-  //适配搜索功能的滚动到标题处
+  //有锚点就滚到对应标题（搜索结果、右栏目录都靠它），
+  //没有锚点就回到顶部 —— 页面滚动的是 window，换文章不会自动重置，
+  //否则从长文底部点进下一篇会停在中段。
   useEffect(() => {
+    if (hash === "") {
+      window.scrollTo(0, 0);
+      return;
+    }
+
     try {
+      //手写的畸形 hash（如 #%E0%A4）会让 decodeURIComponent 抛异常
       const el = document.getElementById(decodeURIComponent(hash.slice(1)));
       el?.scrollIntoView({ behavior: "smooth" });
     } catch (e) {

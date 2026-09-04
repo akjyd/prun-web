@@ -1,0 +1,11 @@
+/**
+ * 正文排版。必须全局：这里选的是 react-markdown 生成的原生标签，
+ * 没有 class 可挂，只能靠 .content 后代选择器限定范围。
+ */
+
+.content {
+  /* 锚点跳转时把标题从固定顶栏下面让出来，否则会被盖住 */
+  :is(h1, h2, h3, h4, h5, h6) {
+    scroll-margin-top: var(--header-height);
+  }
+}

@@ -1,0 +1,75 @@
+/**
+ * 顶栏与三栏骨架。
+ *
+ * 断点：1280 以下砍掉右栏，640 以下左栏变抽屉（开合由 .open 控制，
+ * 类名在 LeftSidebar 里加）。媒体查询就近放在它修改的规则旁边。
+ */
+
+.header {
+  position: sticky;
+  top: 0;
+  height: var(--header-height);
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+}
+
+.content {
+  background-color: var(--content-bg);
+}
+
+.left-sidebar {
+  background-color: var(--left-sidebar-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.right-sidebar {
+  background-color: var(--right-sidebar-bg);
+  display: flex;
+  flex-direction: column;
+
+  a {
+    padding-left: calc((var(--depth) - 1) * 1rem);
+  }
+}
+
+/* 侧栏固定在顶栏之下并自占满剩余视口，内容超出时各自滚动 */
+.left-sidebar,
+.right-sidebar {
+  position: sticky;
+  top: var(--header-height);
+  height: calc(100dvh - var(--header-height));
+}
+
+/* 适配较窄屏幕 */
+@media (max-width: 1280px) {
+  .main-layout {
+    grid-template-columns: 1fr 3fr;
+  }
+
+  .right-sidebar {
+    display: none;
+  }
+}
+
+/* 适配移动端 */
+@media (max-width: 640px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* 抽屉：平时藏在屏幕左侧外，.open 时滑入。
+     用 transform 而非 left，避免每帧触发布局重算 */
+  .left-sidebar {
+    position: fixed;
+    transform: translateX(-100%);
+    z-index: 99;
+  }
+
+  .left-sidebar.open {
+    transform: translateX(0);
+  }
+}

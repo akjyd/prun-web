@@ -1,0 +1,51 @@
+/** 独立 UI 部件：汉堡按钮、抽屉遮罩、搜索弹窗、命中高亮。 */
+
+/* 命中高亮。左栏当前文章、右栏当前标题共用 */
+.highlight {
+  background-color: var(--highlight-bg);
+}
+
+/* 汉堡按钮只在移动端出现，见下方媒体查询 */
+.hamburger {
+  display: none;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: var(--body-bg-overlay);
+  cursor: pointer;
+  z-index: 98;
+}
+
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  outline: none;
+
+  &::backdrop {
+    background: var(--body-bg-overlay);
+  }
+}
+
+@media (max-width: 640px) {
+  .overlay.open {
+    display: block;
+  }
+
+  /* z-index 要高于抽屉(99)，否则抽屉打开后按钮点不到 */
+  .hamburger {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+  }
+}
