@@ -171,7 +171,7 @@
   grid-template-columns:
     [full-start] 1fr
     [wide-start] minmax(0, 140px)
-    [text-start] min(100% - 48px, 720px) [text-end]
+    [text-start] min(100%, 720px) [text-end]
     minmax(0, 140px) [wide-end]
     1fr [full-end];
 
