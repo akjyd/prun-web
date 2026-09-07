@@ -29,6 +29,7 @@
   :root {
     --layout-margin-block: var(--space-m);
     --layout-gutter: var(--space-m);
+    --layout-margin-inline: var(--space-s);
   }
 }
 
@@ -94,9 +95,9 @@
   }
 
   /* 三个按钮都是纯图标了，左右不需要那么宽的内边距 */
-  .header .actions-box > button {
+  /* .header .actions-box > button {
     padding-inline: var(--space-xs);
-  }
+  } */
 
   /* 撤销「扮成输入框」那一层，退回普通图标按钮。
      padding / hover 底色 / active 缩放都从 .actions-box > button
