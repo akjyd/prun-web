@@ -1,14 +1,12 @@
-/**
- * 主题变量。必须全局：:root 和 [data-theme] 选的是 <html>。
- *
- * data-theme 由 index.html 的内联脚本在首屏绘制前设好，
- * 之后由 useTheme 维护。改这里的变量名记得同步 useTheme。
- */
-
 :root,
 [data-theme="light"] {
   /* 顶栏高度。侧栏的 top/height 和标题的 scroll-margin-top 都依赖它 */
   --header-height: 64px;
+
+  /* 布局 */
+  --layout-gutter: var(--space-xl); /* 栏之间的沟 */
+  --layout-margin-block: var(--space-xl); /*栏和顶栏的距离*/
+  --layout-margin-inline: var(--space-m); /*页面左右*/
 
   /* 字体 */
   --font-sans:/* 中文微软雅黑，英文inter */

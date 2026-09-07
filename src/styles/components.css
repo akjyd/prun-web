@@ -1,131 +1,165 @@
-/** 独立 UI 部件：汉堡按钮、抽屉遮罩、搜索弹窗、命中高亮。 */
+/**
+ * 独立 UI 部件：汉堡按钮、抽屉遮罩、搜索弹窗、结果列表。
+ *
+ * 写法约定同 layout.css：选择器扁平写全，声明按
+ * 定位 → 盒模型/布局 → 外观 → 文字 → 动效 排列。
+ */
 
-/* 汉堡按钮只在移动端出现，见下方媒体查询 */
+/* ==========================================================
+   汉堡按钮（只在移动端出现，见 responsive.css）
+   ========================================================== */
 
 .menu-button {
   display: none;
-
-  .menu {
-    width: var(--text-small);
-    color: var(--text-strong);
-  }
 }
 
-/* 抽屉遮罩。不是表面层，是盖在所有东西之上把背后压暗的一块 */
+.menu-button .menu {
+  width: var(--text-small);
+  color: var(--text-strong);
+}
+
+/* ==========================================================
+   抽屉遮罩
+   不是表面层，是盖在所有东西之上、把背后压暗的一块
+   ========================================================== */
+
 .overlay {
-  display: none;
   position: fixed;
   inset: 0;
-  cursor: pointer;
   z-index: 98;
+
+  display: none;
+
+  cursor: pointer;
 }
+
+/* ==========================================================
+   搜索弹窗
+   <dialog> 只管「在哪、多大、遮罩」，内层 .dialog-panel 管长相。
+   分开是因为 <dialog> 的 display 由浏览器控制，往它身上写
+   display:flex 会和 UA 样式抢同一个属性。
+   ========================================================== */
 
 .dialog {
   position: fixed;
   top: 10dvh;
   left: 50%;
-  transform: translateX(-50%);
 
-  height: 80dvh;
   width: min(800px, 100dvw - var(--space-xl));
+  height: 80dvh;
 
-  &::backdrop {
-    background: var(--scrim);
-  }
+  transform: translateX(-50%);
+}
+
+.dialog::backdrop {
+  background: var(--scrim);
 }
 
 .dialog-panel {
-  height: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--space-l);
-
+  height: 100%;
   padding: var(--space-s);
+
   background-color: var(--background-base);
   border: 1px solid var(--stroke-weak);
   border-radius: var(--radius-m);
 
   font-size: var(--text-small);
   line-height: var(--leading-small);
-
-  input {
-    background: none;
-    border-radius: var(--radius-l);
-    padding: var(--space-xs) var(--space-s);
-    background-color: var(--background-overlay);
-    border: none;
-
-    &::placeholder {
-      color: var(--text-weak);
-    }
-
-    &:focus-visible {
-      outline: none;
-      border: 1px solid var(--stroke-strong);
-    }
-  }
 }
 
+.dialog-panel input {
+  padding: var(--space-xs) var(--space-s);
+
+  background: none;
+  background-color: var(--background-overlay);
+  border: none;
+  border-radius: var(--radius-l);
+}
+
+.dialog-panel input::placeholder {
+  color: var(--text-weak);
+}
+
+.dialog-panel input:focus-visible {
+  border: 1px solid var(--stroke-strong);
+
+  outline: none;
+}
+
+/* ==========================================================
+   搜索结果列表
+   ========================================================== */
+
 .search-results {
-  flex: 1;
-  overflow-y: auto;
-  /* 阻止滚动链 */
-  overscroll-behavior: contain;
-
-  /* 改变滚动条 */
-  scrollbar-width: thin;
-  scrollbar-color: var(--stroke-weak) transparent;
-
   display: flex;
   flex-direction: column;
+  /* 分组之间拉开；组内条目靠 .search-group 自己的 gap */
   gap: var(--space-m);
-
-  /* 和滚动条拉出距离 */
+  flex: 1;
+  /* 和滚动条拉开距离 */
   padding-inline: var(--space-xs) var(--space-s);
 
-  .search-group {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
+  overflow-y: auto;
+  /* 滚到底继续滚不要带动背后的页面 */
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--stroke-weak) transparent;
+}
 
-    .search-group-title {
-      color: var(--text-weak);
-    }
-    .search-hit {
-      padding: var(--space-xs) var(--space-s);
-      text-decoration: none;
-      border-radius: var(--radius-s);
-      border: 1px solid transparent;
+.search-results .search-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
 
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-xxs);
+/* 分组标题只是「这些结果来自哪篇」，是标签不是内容，所以比命中本身弱 */
+.search-results .search-group-title {
+  color: var(--text-weak);
+}
 
-      transition: background-color 0.2s ease;
+/* 一条命中。整块可点，所以 flex + 内边距撑出触摸区，不用下划线 */
+.search-results .search-hit {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs);
+  padding: var(--space-xs) var(--space-s);
 
-      &[data-active="true"] {
-        border: 1px solid var(--stroke-strong);
-      }
+  /* 默认放一个透明边框：否则 data-active 时加边框会把布局撑开 2px */
+  border: 1px solid transparent;
+  border-radius: var(--radius-s);
 
-      &:active {
-        background-color: var(--fill-brand);
-      }
+  text-decoration: none;
 
-      .search-hit-heading {
-        color: var(--text-brand);
-      }
+  transition: background-color 0.2s ease;
+}
 
-      .search-hit-snippet {
-        color: var(--text-weak);
+/* 当前选中项。鼠标和键盘共用同一个状态，所以不用 :hover */
+.search-results .search-hit[data-active="true"] {
+  border: 1px solid var(--stroke-strong);
+}
 
-        /* 搜索摘要里命中的词 */
-        mark {
-          font-weight: bold;
-          color: var(--text-strong);
-          background-color: transparent;
-          padding-inline: var(--space-xxs);
-        }
-      }
-    }
-  }
+.search-results .search-hit:active {
+  background-color: var(--fill-brand);
+}
+
+.search-results .search-hit-heading {
+  color: var(--text-brand);
+}
+
+.search-results .search-hit-snippet {
+  color: var(--text-weak);
+}
+
+/* 命中的词。不上品牌色 —— 它不可点，上了会让人以为能点。
+   字重 + 颜色两个信号已经够（p.85 别只靠颜色） */
+.search-results mark {
+  padding-inline: var(--space-xxs);
+
+  background-color: transparent;
+
+  font-weight: bold;
+  color: var(--text-strong);
 }

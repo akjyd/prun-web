@@ -1,172 +1,198 @@
 /**
  * 顶栏与三栏骨架。
  *
- * 这里只写桌面端（>1280）。所有断点在 responsive.css。
+ * 这里只写桌面端。所有断点在 responsive.css。
+ *
+ * 写法约定：
+ *   1. 选择器一律扁平写全，不嵌套 —— 一眼看出特异度，
+ *      改断点时不用数嵌套层数。
+ *   2. 每条规则里声明按固定顺序：
+ *      定位 → 盒模型/布局 → 外观 → 文字 → 动效
  */
+
+/* ==========================================================
+   顶栏
+   ========================================================== */
 
 .header {
   position: sticky;
   top: 0;
-  height: var(--header-height);
-  background-color: var(--background-base);
-  border-bottom: 1px solid var(--stroke-weak);
-  padding: 0 var(--space-m);
 
   display: flex;
-  gap: var(--space-l);
   align-items: center;
+  gap: var(--space-l);
+  height: var(--header-height);
+  padding-inline: var(--layout-margin-inline);
 
-  .logo {
-    font-size: var(--text-h2);
-    line-height: var(--leading-h2);
-    font-weight: bold;
-    color: var(--text-brand);
-
-    text-decoration: none;
-    padding: var(--space-xs) var(--space-s);
-    transition: transform 0.1s ease;
-
-    &:active {
-      transform: scale(0.96);
-    }
-  }
-
-  .nav-box {
-    display: flex;
-    gap: var(--space-xs);
-  }
-
-  .nav-box > a {
-    color: var(--text-weak);
-    text-decoration: none;
-    padding: var(--space-xxs) var(--space-s);
-    border-radius: var(--radius-m);
-
-    transition:
-      transform 0.1s ease,
-      background-color 0.2s ease,
-      color 0.2s ease;
-
-    &.highlight {
-      color: var(--text-strong);
-
-      font-weight: bold;
-    }
-
-    &:hover {
-      background-color: var(--fill);
-    }
-
-    &:active {
-      transform: scale(0.96);
-    }
-  }
-
-  .actions-box {
-    margin-inline-start: auto;
-    display: flex;
-
-    .theme-button {
-      display: flex;
-      align-items: center;
-
-      .sun,
-      .moon {
-        flex: none;
-        width: var(--text-h3);
-        height: var(--text-h3);
-      }
-    }
-
-    .login-button {
-      display: flex;
-      align-items: center;
-
-      .discord {
-        flex: none;
-        width: var(--text-h3);
-        height: var(--text-h3);
-      }
-    }
-  }
-
-  .actions-box > button:not(.search-button) {
-    color: var(--text-weak);
-    padding: var(--space-xs) var(--space-s);
-    border-radius: var(--radius-m);
-    transition:
-      transform 0.1s ease,
-      background-color 0.2s ease,
-      color 0.2s ease;
-
-    &:hover {
-      background-color: var(--fill);
-      color: var(--text-strong);
-    }
-
-    &.highlight:hover {
-      background-color: var(--fill-brand);
-    }
-
-    &:active {
-      transform: scale(0.96);
-    }
-  }
-
-  .search-button {
-    min-width: 200px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-inline: var(--space-xs);
-    border-radius: var(--radius-l);
-    background-color: var(--fill);
-    border: 1px solid var(--stroke-weak);
-    transition:
-      border-color 0.2s ease,
-      background-color 0.2s ease,
-      color 0.2s ease;
-
-    margin-right: var(--space-xs);
-
-    &:hover {
-      border-color: var(--stroke-strong);
-      color: var(--text-strong);
-    }
-
-    &:active {
-      background-color: var(--stroke-weak);
-    }
-
-    .search {
-      width: var(--text-body);
-      height: var(--text-body);
-      flex: none;
-    }
-
-    .search-button-kbd {
-      flex: none;
-
-      font-size: 0.8em;
-      line-height: 1;
-
-      padding: var(--space-xxs) var(--space-xs);
-    }
-  }
+  background-color: var(--background-base);
+  border-bottom: 1px solid var(--stroke-weak);
 }
+
+/* ---------- logo ---------- */
+
+.header .logo {
+  padding: var(--space-xs) var(--space-s);
+
+  font-size: var(--text-h2);
+  line-height: var(--leading-h2);
+  font-weight: bold;
+  color: var(--text-brand);
+  text-decoration: none;
+
+  transition: transform 0.1s ease;
+}
+
+.header .logo:active {
+  transform: scale(0.96);
+}
+
+/* ---------- 站内分区导航 ---------- */
+
+.header .nav-box {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.header .nav-box > a {
+  padding: var(--space-xxs) var(--space-s);
+
+  border-radius: var(--radius-m);
+
+  color: var(--text-weak);
+  text-decoration: none;
+
+  transition:
+    transform 0.1s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* 当前分区 */
+.header .nav-box > a.highlight {
+  color: var(--text-strong);
+  font-weight: bold;
+}
+
+.header .nav-box > a:hover {
+  background-color: var(--fill);
+}
+
+.header .nav-box > a:active {
+  transform: scale(0.96);
+}
+
+/* ---------- 右侧操作区 ---------- */
+
+.header .actions-box {
+  display: flex;
+  margin-inline-start: auto;
+
+  color: var(--text-weak);
+}
+
+/* 顶栏里三个按钮（主题、登陆、搜索）共同的形状和交互。
+   搜索按钮不排除在外 —— 它在手机上就是退回成普通图标按钮，
+   共用这一套，断点里才不用把 padding / hover / active 再声明一遍。
+   默认给一圈透明边框：否则搜索按钮加边框时会把布局撑开 2px */
+.header .actions-box > button {
+  display: flex;
+  align-items: center;
+  padding: var(--space-xs) var(--space-s);
+
+  border: 1px solid transparent;
+  border-radius: var(--radius-m);
+
+  transition:
+    transform 0.1s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.header .actions-box > button:hover {
+  background-color: var(--fill);
+  color: var(--text-strong);
+}
+
+.header .actions-box > button.highlight:hover {
+  background-color: var(--fill-brand);
+}
+
+.header .actions-box > button:active {
+  transform: scale(0.96);
+}
+
+/* 四个图标统一尺寸。不写死 color —— 让它从按钮继承，hover 才能跟着变 */
+.header .sun,
+.header .moon,
+.header .discord,
+.header .search {
+  flex: none;
+  width: var(--text-h3);
+  height: var(--text-h3);
+}
+
+/* ---------- 搜索按钮：宽屏上额外扮成输入框 ----------
+   这一段是叠加在通用按钮之上的，手机上会被 responsive.css 撤销。
+   必须写在通用规则之后：两者特异度相同，靠后来者胜 */
+
+.header .search-button {
+  justify-content: space-between;
+  min-width: 200px;
+  margin-right: var(--space-xs);
+
+  background-color: var(--fill);
+  /* 边框在这里是功能性的：去掉就认不出它是搜索 */
+  border-color: var(--stroke-weak);
+  border-radius: var(--radius-l);
+}
+
+.header .search-button:hover {
+  border-color: var(--stroke-strong);
+}
+
+.header .search-button:active {
+  background-color: var(--stroke-weak);
+}
+
+.header .search-button-kbd {
+  flex: none;
+  padding: var(--space-xxs) var(--space-xs);
+
+  /* 字符级标记，比字号阶梯最小档还小，所以用 em 不套阶梯 */
+  font-size: 0.8em;
+  line-height: 1;
+}
+
+/* ==========================================================
+   三栏骨架
+   ========================================================== */
 
 .main-layout {
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
-  gap: var(--space-xl);
-  padding: var(--space-xl) var(--space-m) 0;
+  gap: var(--layout-gutter);
+  padding: var(--layout-margin-block) var(--layout-margin-inline) 0;
 }
+
+/* 侧栏吸附在顶栏之下并占满剩余视口，内容超出时各自滚动。
+   top / height 必须和 .main-layout 的上内边距用同一个变量，
+   否则断点里改了 padding，侧栏会错位 */
+.left-sidebar,
+.right-sidebar {
+  position: sticky;
+  top: calc(var(--header-height) + var(--layout-margin-block));
+
+  height: calc(100dvh - var(--header-height) - var(--layout-margin-block));
+}
+
+/* ==========================================================
+   内容区
+   ========================================================== */
 
 .content {
   display: grid;
-  /* 单独给正文设置底部内边距，防止滚动到底部的时候，侧栏被顶上去 */
-  padding-bottom: var(--space-xl);
-
+  /* 突破式网格：正文锁在 text 列，表格和代码块可以借用两侧的 wide 列 */
   grid-template-columns:
     [full-start] 1fr
     [wide-start] minmax(0, 140px)
@@ -174,26 +200,34 @@
     minmax(0, 140px) [wide-end]
     1fr [full-end];
 
-  > * {
-    grid-column: text;
-  }
-
-  > :is(table, pre, figure) {
-    grid-column: wide;
-  }
-
   row-gap: var(--space-s);
-
-  > :is(h1, h2, h3, h4, h5, h6) {
-    margin-block-start: var(--space-l);
-  }
-
-  .frontmatter {
-    font-size: var(--text-small);
-    line-height: var(--leading-small);
-    color: var(--text-weak);
-  }
+  /* 底部留白给内容区自己，不给 .main-layout ——
+     否则 sticky 侧栏滚到底时会被容器底边顶上去 */
+  padding-bottom: var(--space-xl);
 }
+
+.content > * {
+  grid-column: text;
+}
+
+.content > :is(table, pre, figure) {
+  grid-column: wide;
+}
+
+/* 标题属于它下面那段，所以只和上文拉开 */
+.content > :is(h1, h2, h3, h4, h5, h6) {
+  margin-block-start: var(--space-l);
+}
+
+.content .frontmatter {
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
+  color: var(--text-weak);
+}
+
+/* ==========================================================
+   左侧栏
+   ========================================================== */
 
 .left-sidebar {
   display: flex;
@@ -202,103 +236,114 @@
   font-size: var(--text-small);
   line-height: var(--leading-small);
   color: var(--text-weak);
-
-  .group-box {
-    --chev-size: var(--text-small);
-    --rail-size: 2px;
-    --rail-offset: calc(
-      var(--chev-size)/2 - var(--rail-size)/2 + var(--space-xs)
-    );
-
-    .acc-head {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      gap: var(--space-l);
-
-      font-weight: bold;
-      color: var(--text-strong);
-      padding: var(--space-xs);
-      border-radius: var(--radius-s);
-      transition: background-color 0.2s ease;
-
-      &:hover {
-        background-color: var(--fill);
-      }
-
-      &:active {
-        background-color: var(--stroke-weak);
-      }
-
-      .chev {
-        width: var(--chev-size);
-        height: var(--chev-size);
-        flex: none;
-        transition: transform 0.2s ease;
-        margin-right: auto;
-        color: var(--stroke-strong);
-      }
-
-      .dot {
-        flex: none;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background-color: currentColor;
-
-        opacity: 0;
-        transform: scale(0.5);
-        transition:
-          opacity 0.2s ease,
-          transform 0.2s ease;
-      }
-    }
-
-    .acc-head.open {
-      .chev {
-        transform: rotate(90deg);
-      }
-    }
-
-    .acc-head.contain:not(.open) {
-      .dot {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .acc-panel {
-      li {
-        list-style: none;
-      }
-      a {
-        /* 沾满li宽高 */
-        display: block;
-        text-decoration: none;
-        margin-left: var(--rail-offset);
-        padding: var(--space-xs) var(--space-s);
-        border-left: var(--rail-size) solid var(--stroke-weak);
-        transition:
-          background-color 0.2s ease,
-          border-left 0.2s ease;
-
-        &:hover {
-          background-color: var(--fill);
-        }
-
-        &:active {
-          background-color: var(--fill-brand);
-          border-left: var(--rail-size) solid var(--text-brand);
-        }
-
-        &.highlight {
-          background-color: var(--fill-brand);
-          border-left: var(--rail-size) solid var(--text-brand);
-        }
-      }
-    }
-  }
 }
+
+.left-sidebar .group-box {
+  --chev-size: var(--text-small);
+  --rail-size: 2px;
+  /* 轨道线对齐箭头中心：箭头半宽 − 线宽一半 + 按钮左内边距 */
+  --rail-offset: calc(
+    var(--chev-size) / 2 - var(--rail-size) / 2 + var(--space-xs)
+  );
+}
+
+/* ---------- 分组标题 ---------- */
+
+.left-sidebar .acc-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-l);
+  width: 100%;
+  padding: var(--space-xs);
+
+  border-radius: var(--radius-s);
+
+  font-weight: bold;
+  color: var(--text-strong);
+
+  transition: background-color 0.2s ease;
+}
+
+.left-sidebar .acc-head:hover {
+  background-color: var(--fill);
+}
+
+.left-sidebar .acc-head:active {
+  background-color: var(--stroke-weak);
+}
+
+.left-sidebar .acc-head .chev {
+  flex: none;
+  width: var(--chev-size);
+  height: var(--chev-size);
+  /* auto 吃掉剩余空间，把标题推到最右 */
+  margin-right: auto;
+
+  color: var(--stroke-strong);
+
+  transition: transform 0.2s ease;
+}
+
+.left-sidebar .acc-head.open .chev {
+  transform: rotate(90deg);
+}
+
+/* 圆点只在「组收起 + 当前页在组内」时出现 —— 组展开时轨道线已经指明位置。
+   用透明度而不是 display:none，否则 flex 重排会让标题跳一下 */
+.left-sidebar .acc-head .dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+
+  background-color: currentColor;
+  border-radius: 50%;
+  opacity: 0;
+
+  transform: scale(0.5);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.left-sidebar .acc-head.contain:not(.open) .dot {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ---------- 组内文章 ---------- */
+
+.left-sidebar .acc-panel li {
+  list-style: none;
+}
+
+.left-sidebar .acc-panel a {
+  /* block 才能占满整行，垂直 padding 也才会把相邻项推开 */
+  display: block;
+  margin-left: var(--rail-offset);
+  padding: var(--space-xs) var(--space-s);
+
+  border-left: var(--rail-size) solid var(--stroke-weak);
+
+  text-decoration: none;
+
+  transition:
+    background-color 0.2s ease,
+    border-left 0.2s ease;
+}
+
+.left-sidebar .acc-panel a:hover {
+  background-color: var(--fill);
+}
+
+.left-sidebar .acc-panel a:active,
+.left-sidebar .acc-panel a.highlight {
+  background-color: var(--fill-brand);
+  border-left: var(--rail-size) solid var(--text-brand);
+}
+
+/* ==========================================================
+   右侧栏：页内目录
+   ========================================================== */
 
 .right-sidebar {
   display: flex;
@@ -307,36 +352,32 @@
   font-size: var(--text-small);
   line-height: var(--leading-small);
   color: var(--text-weak);
-
-  a {
-    display: block;
-    text-decoration: none;
-    padding: var(--space-xs);
-    border-radius: var(--radius-s);
-    transition:
-      background-color 0.2s ease,
-      color 0.2s ease;
-
-    &:hover {
-      background-color: var(--fill);
-      color: var(--text-strong);
-    }
-
-    &:active {
-      background-color: var(--stroke-weak);
-    }
-
-    &.highlight {
-      font-weight: bold;
-      color: var(--text-brand);
-    }
-  }
 }
 
-/* 侧栏固定在顶栏之下并自占满剩余视口，内容超出时各自滚动 */
-.left-sidebar,
-.right-sidebar {
-  position: sticky;
-  top: calc(var(--header-height) + var(--space-xl));
-  height: calc(100dvh - var(--header-height) - var(--space-xl));
+.right-sidebar a {
+  display: block;
+  padding: var(--space-xs);
+
+  border-radius: var(--radius-s);
+
+  text-decoration: none;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.right-sidebar a:hover {
+  background-color: var(--fill);
+  color: var(--text-strong);
+}
+
+.right-sidebar a:active {
+  background-color: var(--stroke-weak);
+}
+
+/* 当前章节。和左栏的「轨道线 + 底色」区分开，只用字重和颜色 */
+.right-sidebar a.highlight {
+  font-weight: bold;
+  color: var(--text-brand);
 }

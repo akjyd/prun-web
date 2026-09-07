@@ -1,12 +1,18 @@
 /**
+ * 全部断点集中在这里。必须最后 import —— 这些规则和它们覆盖的
+ * 目标特异度相同，靠「后来者胜」生效，提前加载会失效。
  *
- * 断点：
+ * 断点（定在内容坏掉的宽度，不按设备型号）：
  *   1280 以下 —— 砍掉右栏
- *    640 以下 —— 左栏变抽屉，出现汉堡按钮和遮罩
+ *   1024 以下 —— 页面留白和沟收窄，给内容让路
+ *    860 以下 —— 单栏 + 抽屉；顶栏塞不下，导航收起、搜索缩成图标
  *
+ * ⚠️ 断点内改布局尺寸时，优先改 tokens 里的 --layout-* 变量，
+ * 而不是逐个组件覆盖 —— 变量只有一处，组件有几十处。
  */
 
 /* ---------- 1280 以下：砍掉右栏 ---------- */
+
 @media (max-width: 1280px) {
   .main-layout {
     grid-template-columns: 1fr 3fr;
@@ -17,8 +23,18 @@
   }
 }
 
-/* ---------- 640 以下：左栏变抽屉 ---------- */
-@media (max-width: 640px) {
+/* ---------- 1024 以下：页面留白收窄 ---------- */
+
+@media (max-width: 1024px) {
+  :root {
+    --layout-margin-block: var(--space-m);
+    --layout-gutter: var(--space-m);
+  }
+}
+
+/* ---------- 860 以下：单栏 + 抽屉 ---------- */
+
+@media (max-width: 860px) {
   .main-layout {
     grid-template-columns: 1fr;
   }
@@ -27,19 +43,19 @@
      用 transform 而非 left，避免每帧触发布局重算。
 
      top/left/width/height 必须全部重写：桌面端那条规则是给
-     sticky 侧栏算的（顶栏 + 48 留白），抽屉不适用。
-     fixed 元素不给 left 就会用静态位置，会被 .main-layout
-     的内边距推开。 */
+     sticky 侧栏算的，抽屉不适用。fixed 元素不给 left 会用
+     静态位置，会被 .main-layout 的内边距推开 */
   .left-sidebar {
     position: fixed;
     top: var(--header-height);
     left: 0;
+    z-index: 99;
+
     width: 280px;
     height: calc(100dvh - var(--header-height));
 
     background-color: var(--background-base);
 
-    z-index: 99;
     transform: translateX(-100%);
   }
 
@@ -53,10 +69,52 @@
 
   /* z-index 要高于抽屉(99)，否则抽屉打开后按钮点不到 */
   .menu-button {
-    display: block;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 100;
+
+    display: block;
+  }
+
+  /* ----- 顶栏：塞不下五个元素，删两个、收紧间距 ----- */
+
+  .header {
+    gap: var(--space-xs);
+  }
+
+  .header .logo {
+    font-size: var(--text-h3);
+    line-height: var(--leading-h3);
+  }
+
+  /* 分区导航收进抽屉 */
+  .header .nav-box {
+    display: none;
+  }
+
+  /* 三个按钮都是纯图标了，左右不需要那么宽的内边距 */
+  .header .actions-box > button {
+    padding-inline: var(--space-xs);
+  }
+
+  /* 撤销「扮成输入框」那一层，退回普通图标按钮。
+     padding / hover 底色 / active 缩放都从 .actions-box > button
+     继承，这里只需要撤销 layout.css 里那段叠加 */
+  .header .search-button {
+    min-width: 0;
+    margin-right: 0;
+
+    background-color: transparent;
+    border-color: transparent;
+  }
+
+  .header .search-button:hover {
+    border-color: transparent;
+  }
+
+  /* 手机上没有物理键盘，键位提示没有意义 */
+  .header .search-button-kbd {
+    display: none;
   }
 }
