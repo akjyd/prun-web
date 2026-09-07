@@ -1,6 +1,6 @@
 ---
-title: 教程1
-date: "2026-08-30"
+title: 升级你的新手船
+updated: 2026-09-05
 ---
 
 ## [CoinCrafter23 | MMH](https://discord.com/channels/855488309802172469/1509750837583417564)

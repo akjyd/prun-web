@@ -35,12 +35,19 @@ export default function Content() {
   if (post === undefined) return <NotFound />;
 
   return (
-    <Markdown
-      remarkPlugins={[remarkGfm]}
-      rehypePlugins={[rehypeRaw, rehypeSlug]}
-    >
-      {post.content}
-    </Markdown>
+    <>
+      <div className="frontmatter">
+        {post.frontmatter.author}
+        {post.frontmatter.updated}
+      </div>
+
+      <Markdown
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeRaw, rehypeSlug]}
+      >
+        {post.content}
+      </Markdown>
+    </>
   );
 }
 

@@ -1,51 +1,131 @@
 /** 独立 UI 部件：汉堡按钮、抽屉遮罩、搜索弹窗、命中高亮。 */
 
-/* 命中高亮。左栏当前文章、右栏当前标题共用 */
-.highlight {
-  background-color: var(--highlight-bg);
-}
-
 /* 汉堡按钮只在移动端出现，见下方媒体查询 */
-.hamburger {
+
+.menu-button {
   display: none;
+
+  .menu {
+    width: var(--text-small);
+    color: var(--text-strong);
+  }
 }
 
+/* 抽屉遮罩。不是表面层，是盖在所有东西之上把背后压暗的一块 */
 .overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background-color: var(--body-bg-overlay);
   cursor: pointer;
   z-index: 98;
 }
 
 .dialog {
   position: fixed;
-  top: 50%;
+  top: 10dvh;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
 
-  border: none;
-  padding: 0;
-  background-color: transparent;
-  outline: none;
+  height: 80dvh;
+  width: min(800px, 100dvw - var(--space-xl));
 
   &::backdrop {
-    background: var(--body-bg-overlay);
+    background: var(--scrim);
   }
 }
 
-@media (max-width: 640px) {
-  .overlay.open {
-    display: block;
-  }
+.dialog-panel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
 
-  /* z-index 要高于抽屉(99)，否则抽屉打开后按钮点不到 */
-  .hamburger {
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100;
+  padding: var(--space-s);
+  background-color: var(--background-base);
+  border: 1px solid var(--stroke-weak);
+  border-radius: var(--radius-m);
+
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
+
+  input {
+    background: none;
+    border-radius: var(--radius-l);
+    padding: var(--space-xs) var(--space-s);
+    background-color: var(--background-overlay);
+    border: none;
+
+    &::placeholder {
+      color: var(--text-weak);
+    }
+
+    &:focus-visible {
+      outline: none;
+      border: 1px solid var(--stroke-strong);
+    }
+  }
+}
+
+.search-results {
+  flex: 1;
+  overflow-y: auto;
+  /* 阻止滚动链 */
+  overscroll-behavior: contain;
+
+  /* 改变滚动条 */
+  scrollbar-width: thin;
+  scrollbar-color: var(--stroke-weak) transparent;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+
+  /* 和滚动条拉出距离 */
+  padding-inline: var(--space-xs) var(--space-s);
+
+  .search-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+
+    .search-group-title {
+      color: var(--text-weak);
+    }
+    .search-hit {
+      padding: var(--space-xs) var(--space-s);
+      text-decoration: none;
+      border-radius: var(--radius-s);
+      border: 1px solid transparent;
+
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xxs);
+
+      transition: background-color 0.2s ease;
+
+      &[data-active="true"] {
+        border: 1px solid var(--stroke-strong);
+      }
+
+      &:active {
+        background-color: var(--fill-brand);
+      }
+
+      .search-hit-heading {
+        color: var(--text-brand);
+      }
+
+      .search-hit-snippet {
+        color: var(--text-weak);
+
+        /* 搜索摘要里命中的词 */
+        mark {
+          font-weight: bold;
+          color: var(--text-strong);
+          background-color: transparent;
+          padding-inline: var(--space-xxs);
+        }
+      }
+    }
   }
 }

@@ -7,6 +7,7 @@
  * 只管「给什么词搜什么词」——「要不要滞后」是 SearchBox 的决定。
  */
 import search from "../search/search";
+import { buildSnippet } from "../search/snippet";
 import type { SearchHit } from "../types/content";
 import { Link } from "react-router";
 
@@ -14,25 +15,54 @@ import { Link } from "react-router";
  *  10 条有可能全部来自同一篇文章 */
 const MAX_HITS = 10;
 
-export default function SearchResults({ query }: { query: string }) {
-  const hits = search(query);
+export default function SearchResults({
+  deferredQuery,
+  active,
+  onActiveChange,
+  dialogRef,
+}: {
+  deferredQuery: string;
+  active: string | undefined;
+  onActiveChange: (url: string) => void;
+  dialogRef: React.RefObject<HTMLDialogElement | null>;
+}) {
+  const hits = search(deferredQuery);
+
+  if (hits.length === 0 && deferredQuery !== "") {
+    return <div className="search-results">无法搜索到 "{deferredQuery}"</div>;
+  }
 
   return (
-    <>
+    <div className="search-results" tabIndex={-1}>
       {groupBySlug(hits.slice(0, MAX_HITS)).map(({ slug, title, hits }) => (
-        <div key={slug}>
-          {title}
-          {hits.map(({ section, slug, headingId, headingText }) => (
-            <Link
-              key={`/${section}/${slug}#${headingId}`}
-              to={`/${section}/${slug}#${headingId}`}
-            >
-              <div>{headingText}</div>
-            </Link>
-          ))}
+        <div className="search-group" key={slug}>
+          <div className="search-group-title">{title}</div>
+          {hits.map(({ section, slug, headingId, headingText, content }) => {
+            const { before, hit, after } = buildSnippet(content, deferredQuery);
+            const url = `/${section}/${slug}#${headingId}`;
+
+            return (
+              <Link
+                className="search-hit"
+                key={url}
+                to={url}
+                data-active={active === url}
+                onMouseEnter={() => onActiveChange(url)}
+                onClick={() => dialogRef.current?.close()}
+                tabIndex={-1}
+              >
+                <div className="search-hit-heading">{headingText}</div>
+                <div className="search-hit-snippet">
+                  {before}
+                  <mark>{hit}</mark>
+                  {after}
+                </div>
+              </Link>
+            );
+          })}
         </div>
       ))}
-    </>
+    </div>
   );
 }
 

@@ -5,23 +5,105 @@
  * 之后由 useTheme 维护。改这里的变量名记得同步 useTheme。
  */
 
-:root {
-  --body-bg: white;
-  --body-bg-overlay: rgba(255, 255, 255, 0.5);
-  --content-bg: white;
-  --left-sidebar-bg: white;
-  --right-sidebar-bg: white;
-  --highlight-bg: green;
-
+:root,
+[data-theme="light"] {
   /* 顶栏高度。侧栏的 top/height 和标题的 scroll-margin-top 都依赖它 */
-  --header-height: 10dvh;
+  --header-height: 64px;
+
+  /* 字体 */
+  --font-sans:/* 中文微软雅黑，英文inter */
+    "Inter Variable", system-ui, -apple-system, "PingFang SC",
+    "Microsoft YaHei UI", "Noto Sans CJK SC", sans-serif;
+
+  --font-mono:/* 部分特殊字体使用等宽 */
+    ui-monospace, "Cascadia Mono", Consolas, "SF Mono", Menlo, monospace;
+
+  /* 字号阶梯：基准 18，比例 1.250。行高全部是 4 的倍数 */
+  --text-h1: 36px;
+  --leading-h1: 44px; /* 1.22 */
+
+  --text-h2: 28px;
+  --leading-h2: 36px; /* 1.29 */
+
+  --text-h3: 22px;
+  --leading-h3: 32px; /* 1.45 */
+
+  --text-body: 18px;
+  --leading-body: 32px; /* 1.78 */
+
+  --text-small: 16px;
+  --leading-small: 24px; /* 1.43 */
+
+  /* 间距集合（8 的倍数）。用哪档取决于关系有多紧密 */
+  /* 从目前我来看，我感觉从4开始会好些，80基本上没用过 */
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-s: 16px;
+  --space-m: 24px;
+  --space-l: 32px;
+  --space-xl: 48px;
+  --space-xxl: 80px;
+
+  /* 圆角集合 */
+  --radius-s: 4px;
+  --radius-m: 8px;
+  --radius-l: 16px;
+
+  /* 两种阴影 */
+  --shadow-raised: 0 1px 3px rgb(0 0 0 / 10%);
+  --shadow-overlay: 0 8px 24px rgb(0 0 0 / 16%);
+
+  /* 遮罩 */
+  --scrim: rgb(0 0 0 / 50%);
+
+  /*品牌色*/
+  --text-brand: rgb(0 60 128 / 100%); /*HSB(212,100,50)*/
+  --stroke-strong-brand: rgb(0 60 128 / 80%);
+  --stroke-weak-brand: rgb(0 60 128 / 40%);
+  --fill-brand: rgb(0 60 128 / 20%);
+
+  /* 面：实色背景 */
+  --background-base: #e6e6e6; /* HSB(0,0,90) */
+  --background-raised: #ededed; /* HSB(0,0,93) */
+  --background-overlay: #ffffff; /* HSB(0,0,100) */
+
+  /* 前景：黑的透明度 */
+  /*--text-strong: rgb(0 0 0 / 90%); /*标题，正文*/
+  /*--text-weak: rgb(0 0 0 / 70%); /*次要文字*/
+  /*--stroke-strong: rgb(0 0 0 / 45%); /*控件边框，图标*/
+  /*--stroke-weak: rgb(0 0 0 / 10%); /*分割线，装饰*/
+  /*--fill: rgb(0 0 0 / 4%); /*次级背景,单个小元素的底*/
+
+  --text-strong: rgb(21 29 38 / 90%); /* 	HSB(212,45,15) */
+  --text-weak: rgb(28 39 51 / 70%); /* 	HSB(212,45,20) */
+  --stroke-strong: rgb(42 58 77 / 55%); /* 	HSB(212,45,30) */
+  --stroke-weak: rgb(56 78 102 / 20%); /* 	HSB(212,45,40) */
+  --fill: rgb(70 97 128 / 10%); /* 	HSB(212,45,50) */
 }
 
 [data-theme="dark"] {
-  --body-bg: grey;
-  --body-bg-overlay: rgba(128, 128, 128, 0.5);
-  --content-bg: #a0a0a0;
-  --left-sidebar-bg: #999999;
-  --right-sidebar-bg: #555555;
-  --highlight-bg: pink;
+  --text-brand: rgb(155 196 242 / 100%); /*HSB(212,36,95)*/
+  --stroke-strong-brand: rgb(155 196 242 / 80%);
+  --stroke-weak-brand: rgb(155 196 242 / 40%);
+  --fill-brand: rgb(155 196 242 / 20%);
+
+  /* 单色灰 */
+  /* --background-base: #1a1a1a; /* HSB(0,0,10) */
+  /* --background-raised: #262626; /* HSB(0,0,15) */
+  /* --background-overlay: #333333; /* HSB(0,0,20) */
+
+  --background-base: #1d2126; /* HSB(212, 25, 15) */
+  --background-raised: #292e33; /* HSB(212, 20, 20) */
+  --background-overlay: #363b40; /* HSB(212, 15, 25) */
+
+  /* 前景：白的透明度 */
+  --text-strong: rgb(255 255 255 / 80%);
+  --text-weak: rgb(255 255 255 / 65%);
+  --stroke-strong: rgb(255 255 255 / 60%);
+  --stroke-weak: rgb(255 255 255 / 20%);
+  --fill: rgb(255 255 255 / 10%);
+
+  /* 黑色主题没有阴影 */
+  --shadow-raised: none;
+  --shadow-overlay: none;
 }

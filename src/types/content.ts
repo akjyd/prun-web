@@ -13,7 +13,8 @@
 
 export type Frontmatter = {
   title: string;
-  date: string;
+  updated: string;
+  author?: string;
 };
 
 export type Post = {
@@ -73,5 +74,6 @@ export type SearchHit = {
   headingId: string;
   title: string;
   headingText: string;
+  content: string;
   score: number;
 };

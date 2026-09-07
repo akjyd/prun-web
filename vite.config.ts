@@ -6,6 +6,8 @@ import { toString } from "mdast-util-to-string";
 import GithubSlugger from "github-slugger";
 import type { Heading, SearchChunk } from "./src/types/content.ts";
 import type { RootContent } from "mdast";
+import { gfm } from "micromark-extension-gfm";
+import { gfmFromMarkdown } from "mdast-util-gfm";
 
 /** 目录只收前三级 */
 const MAX_TOC_DEPTH = 3;
@@ -18,7 +20,16 @@ const markdownPlugin: Plugin = {
 
     const { data, content } = matter(code);
 
-    const tree = fromMarkdown(content);
+    //matter会将符合date属性的日期读成date，转换成string
+    //才是我要的格式
+    if (data["updated"] instanceof Date) {
+      data["updated"] = data["updated"].toISOString().slice(0, 10);
+    }
+
+    const tree = fromMarkdown(content, {
+      extensions: [gfm()],
+      mdastExtensions: [gfmFromMarkdown()],
+    });
     const slugger = new GithubSlugger();
 
     const headings: Heading[] = [];
@@ -48,10 +59,13 @@ const markdownPlugin: Plugin = {
         continue;
       }
 
-      const text = toString(node);
+      //提取的内容去掉html标签及其内容
+      //会导致内容无法被搜索，但搜索结果也不会出现html
+      const text = toString(node, { includeHtml: false });
       const id = slugger.slug(text);
 
-      if (isTocDepth(node.depth)) headings.push({ text, id, depth: node.depth });
+      if (isTocDepth(node.depth))
+        headings.push({ text, id, depth: node.depth });
 
       if (current !== null) searchChunks.push(toChunk(current));
 
@@ -91,7 +105,7 @@ function toChunk(current: {
   return {
     headingId: current.headingId,
     headingText: current.headingText,
-    content: toString(current.nodes),
+    content: toString(current.nodes, { includeHtml: false }),
   };
 }
 

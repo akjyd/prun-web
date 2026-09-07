@@ -19,6 +19,7 @@ const STORE_FIELDS = [
   "headingId",
   "headingText",
   "section",
+  "content",
 ] as const satisfies readonly (keyof SearchDoc)[];
 
 const FIELDS = [
@@ -65,16 +66,27 @@ const miniSearch = new MiniSearch({
 
 miniSearch.addAll(searchDocs);
 
+/** 拉丁字母至少要几个才做前缀匹配 */
+const MIN_LATIN_PREFIX = 3;
+
+const HAN = /\p{Script=Han}/u;
+
 export default function search(query: string | undefined): SearchHit[] {
   query = query?.trim();
   if (query === "" || query === undefined) return [];
 
+  //单个拉丁字母怎么都匹配不出有意义的东西，与其返回一屏噪音不如不显示。
+  //单个汉字要放行 —— 那是有意义的查询
+  if (query.length === 1 && !HAN.test(query)) return [];
+
   return miniSearch
     .search(query, {
-      prefix: true,
+      //标题命中权重增加
+      boost: { headingText: 2 },
+      //中文和够长的字才开启前缀匹配
+      prefix: (term) => HAN.test(term) || term.length >= MIN_LATIN_PREFIX,
       combineWith: "OR",
-      //查询期不转拼音：用户输入的可能已经是拼音，再转一次就成了「拼音的拼音」。
-      //这里和索引期的 processTerm 不对称，是有意的，别「顺手统一」。
+      //这里和索引期的 processTerm 不对称
       processTerm: (term) => term.toLowerCase(),
     })
     .map((r) => ({
@@ -84,5 +96,6 @@ export default function search(query: string | undefined): SearchHit[] {
       title: r.title,
       headingText: r.headingText,
       score: r.score,
+      content: r.content,
     }));
 }

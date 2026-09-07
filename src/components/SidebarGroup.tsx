@@ -11,6 +11,7 @@
 import { posts } from "../contents/posts";
 import { Link, useParams } from "react-router";
 import { useOpenGroups } from "../contexts/OpenGroupsContext";
+import Chev from "./icons/Chev";
 
 export default function SidebarGroup({
   group,
@@ -27,34 +28,44 @@ export default function SidebarGroup({
 
   //当前正在看的文章，它所在的组默认展开 —— 否则从外部链接直接进来，
   //左栏是一排关着的标题，用户看不到自己在哪。
-  const containsCurrentPost =
+  const slugInThisGroup =
     currentSlug !== undefined && slugs.includes(currentSlug);
 
   //用户表过态就听他的，没表态才用上面那条默认规则
-  const isGroupOpen = groupOverrides.get(key) ?? containsCurrentPost;
+  const isGroupOpen = groupOverrides.get(key) ?? slugInThisGroup;
 
   const links = slugs.map((slug) => {
     const post = posts[slug];
     if (post === undefined) return null;
 
     return (
-      <Link
-        key={slug}
-        to={`/${section}/${slug}`}
-        className={currentSlug === slug ? "highlight" : undefined}
-      >
-        {post.frontmatter.title}
-      </Link>
+      <li key={slug}>
+        <Link
+          to={`/${section}/${slug}`}
+          className={currentSlug === slug ? " highlight" : undefined}
+        >
+          {post.frontmatter.title}
+        </Link>
+      </li>
     );
   });
 
   return (
     <>
-      <button onClick={handleClick}>
-        {group}
-        {isGroupOpen ? "▾" : "▸"}
-      </button>
-      {isGroupOpen && links}
+      <div className="group-box">
+        <button
+          onClick={handleClick}
+          className={`acc-head ${isGroupOpen ? "open" : ""} ${slugInThisGroup ? "contain" : ""}`}
+        >
+          <Chev />
+          <span className="dot" />
+          <span>{group}</span>
+        </button>
+
+        <div className="acc-panel">
+          <ul>{isGroupOpen && links}</ul>
+        </div>
+      </div>
     </>
   );
 

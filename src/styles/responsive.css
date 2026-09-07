@@ -1,0 +1,62 @@
+/**
+ *
+ * 断点：
+ *   1280 以下 —— 砍掉右栏
+ *    640 以下 —— 左栏变抽屉，出现汉堡按钮和遮罩
+ *
+ */
+
+/* ---------- 1280 以下：砍掉右栏 ---------- */
+@media (max-width: 1280px) {
+  .main-layout {
+    grid-template-columns: 1fr 3fr;
+  }
+
+  .right-sidebar {
+    display: none;
+  }
+}
+
+/* ---------- 640 以下：左栏变抽屉 ---------- */
+@media (max-width: 640px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* 抽屉：平时藏在屏幕左侧外，.open 时滑入。
+     用 transform 而非 left，避免每帧触发布局重算。
+
+     top/left/width/height 必须全部重写：桌面端那条规则是给
+     sticky 侧栏算的（顶栏 + 48 留白），抽屉不适用。
+     fixed 元素不给 left 就会用静态位置，会被 .main-layout
+     的内边距推开。 */
+  .left-sidebar {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: 280px;
+    height: calc(100dvh - var(--header-height));
+
+    background-color: var(--background-base);
+
+    z-index: 99;
+    transform: translateX(-100%);
+  }
+
+  .left-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .overlay.open {
+    display: block;
+  }
+
+  /* z-index 要高于抽屉(99)，否则抽屉打开后按钮点不到 */
+  .menu-button {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+  }
+}
