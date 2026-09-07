@@ -48,16 +48,18 @@
      静态位置，会被 .main-layout 的内边距推开 */
   .left-sidebar {
     position: fixed;
-    top: var(--header-height);
+    top: 0;
     left: 0;
+
     z-index: 99;
 
     width: 280px;
-    height: calc(100dvh - var(--header-height));
+    height: 100dvh;
 
     background-color: var(--background-base);
 
     transform: translateX(-100%);
+    transition: transform 0.1s ease;
   }
 
   .left-sidebar.open {
@@ -68,14 +70,10 @@
     display: block;
   }
 
-  /* z-index 要高于抽屉(99)，否则抽屉打开后按钮点不到 */
-  .menu-button {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100;
-
-    display: block;
+  /* 汉堡按钮出场。它在顶栏里正常排版，不用 fixed ——
+     抽屉展开时会连同顶栏一起被盖住，关闭靠点遮罩 */
+  .header .menu-button {
+    display: flex;
   }
 
   /* ----- 顶栏：塞不下五个元素，删两个、收紧间距 ----- */
@@ -89,15 +87,21 @@
     line-height: var(--leading-h3);
   }
 
-  /* 分区导航收进抽屉 */
+  /* ----- 分区导航：从顶栏换到抽屉 -----
+     同一个组件渲染了两份，这两条决定哪一份出场。
+     桌面端的默认（抽屉里那份隐藏）在下面的 min-width 段 */
   .header .nav-box {
     display: none;
   }
 
-  /* 三个按钮都是纯图标了，左右不需要那么宽的内边距 */
-  /* .header .actions-box > button {
-    padding-inline: var(--space-xs);
-  } */
+  .left-sidebar .nav-box {
+    display: flex;
+    justify-content: center;
+
+    padding-bottom: var(--space-xs);
+    margin-bottom: var(--space-m);
+    border-bottom: 1px solid var(--stroke-weak);
+  }
 
   /* 撤销「扮成输入框」那一层，退回普通图标按钮。
      padding / hover 底色 / active 缩放都从 .actions-box > button
@@ -116,6 +120,16 @@
 
   /* 手机上没有物理键盘，键位提示没有意义 */
   .header .search-button-kbd {
+    display: none;
+  }
+}
+
+/* ---------- 861 以上：抽屉里那份分区导航不出场 ----------
+   写成 min-width 而不是放在 components.css，是为了让
+   「两份谁可见」这件事全部集中在这个文件里 */
+
+@media (min-width: 861px) {
+  .left-sidebar .nav-box {
     display: none;
   }
 }

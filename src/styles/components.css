@@ -6,16 +6,42 @@
  */
 
 /* ==========================================================
-   汉堡按钮（只在移动端出现，见 responsive.css）
+   分区导航（SectionNav）
+   顶栏和抽屉各渲染一份，所以样式不带宿主前缀。
+   「哪一份可见」由宿主控制，两条规则都在 responsive.css。
    ========================================================== */
 
-.menu-button {
-  display: none;
+.nav-box {
+  display: flex;
+  gap: var(--space-xs);
 }
 
-.menu-button .menu {
-  width: var(--text-small);
+.nav-box > a {
+  padding: var(--space-xxs) var(--space-s);
+
+  border-radius: var(--radius-m);
+
+  color: var(--text-weak);
+  text-decoration: none;
+
+  transition:
+    transform 0.1s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* 当前分区。只有两项，用最轻的一档标记就够 */
+.nav-box > a.highlight {
   color: var(--text-strong);
+  font-weight: bold;
+}
+
+.nav-box > a:hover {
+  background-color: var(--fill);
+}
+
+.nav-box > a:active {
+  transform: scale(0.96);
 }
 
 /* ==========================================================
@@ -29,6 +55,7 @@
   z-index: 98;
 
   display: none;
+  background-color: var(--scrim);
 
   cursor: pointer;
 }

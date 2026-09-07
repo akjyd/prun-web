@@ -1,28 +1,26 @@
-import { Outlet, useLocation } from "react-router";
+/**
+ * 文档页的三栏骨架。
+ *
+ * 抽屉的开合状态不在这里 —— 开关按钮在 Header 里，两者最近的
+ * 共同父级是 App，状态住在那儿，这里只接收。
+ */
+import { Outlet } from "react-router";
 import LeftSidebar from "../components/LeftSidebar";
 import RightSidebar from "../components/RightSidebar";
-import { useState } from "react";
-import Menu from "../components/icons/Menu";
 
-export default function DocsLayout() {
-  const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const pathname = useLocation().pathname;
-
-  //换了地址就关抽屉
-  const [prevPathname, setPrevPathname] = useState(pathname);
-  if (pathname !== prevPathname) {
-    setPrevPathname(pathname);
-    setMenuOpen(false);
-  }
-
+export default function DocsLayout({
+  menuOpen,
+  onMenuToggle,
+}: {
+  menuOpen: boolean;
+  onMenuToggle: () => void;
+}) {
   return (
     <>
-      <button className="menu-button" onClick={handleMenu}>
-        <Menu />
-      </button>
+      {/* 遮罩。点它关抽屉 —— 抽屉盖住了顶栏，汉堡按钮点不到了 */}
       <div
         className={menuOpen ? "overlay open" : "overlay"}
-        onClick={handleMenu}
+        onClick={onMenuToggle}
       ></div>
       <div className="main-layout">
         <LeftSidebar menuOpen={menuOpen} />
@@ -33,8 +31,4 @@ export default function DocsLayout() {
       </div>
     </>
   );
-
-  function handleMenu() {
-    setMenuOpen(!menuOpen);
-  }
 }

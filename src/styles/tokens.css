@@ -48,8 +48,8 @@
   --radius-l: 16px;
 
   /* 两种阴影 */
-  --shadow-raised: 0 1px 3px rgb(0 0 0 / 10%);
-  --shadow-overlay: 0 8px 24px rgb(0 0 0 / 16%);
+  /* --shadow-raised: 0 1px 3px rgb(0 0 0 / 10%);
+  --shadow-overlay: 0 8px 24px rgb(0 0 0 / 16%); */
 
   /* 遮罩 */
   --scrim: rgb(0 0 0 / 50%);

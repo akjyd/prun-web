@@ -1,6 +1,7 @@
 import { useParams } from "react-router";
 import { postIndex } from "../contents/posts";
 import Group from "./SidebarGroup";
+import SectionNav from "./SectionNav";
 
 export default function LeftSidebar({ menuOpen }: { menuOpen: boolean }) {
   const { section } = useParams();
@@ -13,6 +14,7 @@ export default function LeftSidebar({ menuOpen }: { menuOpen: boolean }) {
 
   return (
     <div className={menuOpen ? "left-sidebar open" : "left-sidebar"}>
+      <SectionNav />
       {Object.entries(groups).map(([group, slugs]) => (
         <Group key={group} group={group} slugs={slugs} />
       ))}

@@ -46,40 +46,8 @@
   transform: scale(0.96);
 }
 
-/* ---------- 站内分区导航 ---------- */
-
-.header .nav-box {
-  display: flex;
-  gap: var(--space-xs);
-}
-
-.header .nav-box > a {
-  padding: var(--space-xxs) var(--space-s);
-
-  border-radius: var(--radius-m);
-
-  color: var(--text-weak);
-  text-decoration: none;
-
-  transition:
-    transform 0.1s ease,
-    background-color 0.2s ease,
-    color 0.2s ease;
-}
-
-/* 当前分区 */
-.header .nav-box > a.highlight {
-  color: var(--text-strong);
-  font-weight: bold;
-}
-
-.header .nav-box > a:hover {
-  background-color: var(--fill);
-}
-
-.header .nav-box > a:active {
-  transform: scale(0.96);
-}
+/* 分区导航 .nav-box 的样式在 components.css —— 它是独立组件，
+   顶栏和抽屉各渲染一份，样式不该挂在某个宿主下面 */
 
 /* ---------- 右侧操作区 ---------- */
 
@@ -90,11 +58,13 @@
   color: var(--text-weak);
 }
 
-/* 顶栏里三个按钮（主题、登陆、搜索）共同的形状和交互。
-   搜索按钮不排除在外 —— 它在手机上就是退回成普通图标按钮，
+/* 顶栏里所有按钮（汉堡、搜索、主题、登陆）共同的形状和交互。
+   范围是整个 .header 而不是 .actions-box —— 汉堡在 logo 前面，
+   不在操作区里，但它该长得和别的图标按钮一样。
+   搜索按钮也不排除在外：它手机上就是退回成普通图标按钮，
    共用这一套，断点里才不用把 padding / hover / active 再声明一遍。
    默认给一圈透明边框：否则搜索按钮加边框时会把布局撑开 2px */
-.header .actions-box > button {
+.header button {
   display: flex;
   align-items: center;
   padding: var(--space-xs) var(--space-s);
@@ -109,20 +79,21 @@
     color 0.2s ease;
 }
 
-.header .actions-box > button:hover {
+.header button:hover {
   background-color: var(--fill);
   color: var(--text-strong);
 }
 
-.header .actions-box > button.highlight:hover {
+.header button.highlight:hover {
   background-color: var(--fill-brand);
 }
 
-.header .actions-box > button:active {
+.header button:active {
   transform: scale(0.96);
 }
 
-/* 四个图标统一尺寸。不写死 color —— 让它从按钮继承，hover 才能跟着变 */
+/* 顶栏图标统一尺寸。不写死 color —— 让它从按钮继承，hover 才能跟着变 */
+.header .menu,
 .header .sun,
 .header .moon,
 .header .discord,
@@ -130,6 +101,10 @@
   flex: none;
   width: var(--text-h3);
   height: var(--text-h3);
+}
+
+.header .menu-button {
+  display: none;
 }
 
 /* ---------- 搜索按钮：宽屏上额外扮成输入框 ----------
@@ -232,10 +207,17 @@
 .left-sidebar {
   display: flex;
   flex-direction: column;
+  padding: var(--space-s);
 
   font-size: var(--text-small);
   line-height: var(--leading-small);
   color: var(--text-weak);
+
+  overflow-y: auto;
+  /* 滚到底继续滚不要带动背后的页面 */
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--stroke-weak) transparent;
 }
 
 .left-sidebar .group-box {
