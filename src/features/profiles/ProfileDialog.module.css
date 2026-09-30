@@ -1,0 +1,17 @@
+@layer components {
+  .dialog {
+    width: min(400px, 100dvw - var(--space-xl));
+  }
+
+  .dialog::backdrop {
+    background: var(--scrim);
+  }
+
+  .panel {
+    padding: var(--space-s);
+    height: 100%;
+    background-color: var(--background-raised);
+    border: 1px solid var(--stroke-weak);
+    border-radius: var(--radius-m);
+  }
+}

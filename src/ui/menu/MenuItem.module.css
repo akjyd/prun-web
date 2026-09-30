@@ -1,0 +1,32 @@
+@layer components {
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    padding: var(--space-xs) var(--space-s);
+
+    color: var(--text-weak);
+    font-size: var(--text-tiny);
+    line-height: var(--leading-tiny);
+  }
+
+  .default:hover:not(:disabled) {
+    background-color: var(--fill);
+  }
+
+  .default:active:not(:disabled) {
+    background-color: var(--stroke-weak);
+  }
+
+  .danger {
+    color: var(--text-error);
+  }
+
+  .danger:hover:not(:disabled) {
+    background-color: var(--fill-error);
+  }
+
+  .danger:active:not(:disabled) {
+    background-color: var(--stroke-weak-error);
+  }
+}

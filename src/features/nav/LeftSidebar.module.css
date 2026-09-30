@@ -1,0 +1,65 @@
+@layer components {
+  /* 吸附在顶栏之下并占满剩余视口，内容超出时自己滚。
+     top / height 必须和三栏容器的上内边距用同一个变量，
+     否则断点里改了 padding，侧栏会错位 */
+  .sidebar {
+    position: sticky;
+    top: calc(var(--header-height) + var(--layout-margin-block));
+
+    display: flex;
+    flex-direction: column;
+    height: calc(100dvh - var(--header-height) - var(--layout-margin-block));
+    padding: var(--space-s) var(--space-xxl) var(--space-s) var(--space-s);
+
+    font-size: var(--text-small);
+    line-height: var(--leading-small);
+    color: var(--text-weak);
+
+    overflow-y: auto;
+    /* 滚到底继续滚不要带动背后的页面 */
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--stroke-weak) transparent;
+  }
+
+  /* 桌面端分区导航在顶栏那一份，抽屉这份不出场。
+     带 .sidebar 前缀是为了压过 SectionNav 自己的 display:flex ——
+     同在 components 层、跨文件的同特异度平局不可控 */
+  .sidebar .nav {
+    display: none;
+  }
+
+  /* 抽屉：平时藏在屏幕左侧外，.open 时滑入。
+     用 transform 而非 left，避免每帧触发布局重算。
+     top/left/width/height 必须全部重写：上面那套是给 sticky 侧栏算的 */
+  @media (max-width: 860px) {
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+
+      z-index: 99;
+
+      width: 280px;
+      height: 100dvh;
+
+      background-color: var(--background-base);
+
+      transform: translateX(-100%);
+      transition: transform var(--dur-press);
+    }
+
+    .sidebar.open {
+      transform: translateX(0);
+    }
+
+    .sidebar .nav {
+      display: flex;
+      justify-content: center;
+
+      padding-bottom: var(--space-xs);
+      margin-bottom: var(--space-m);
+      border-bottom: 1px solid var(--stroke-weak);
+    }
+  }
+}

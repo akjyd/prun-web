@@ -30,7 +30,10 @@
   --leading-body: 32px; /* 1.78 */
 
   --text-small: 16px;
-  --leading-small: 24px; /* 1.43 */
+  --leading-small: 24px; /* 1.50 */
+
+  --text-tiny: 14px;
+  --leading-tiny: 20px; /* 1.43 */
 
   /* 间距集合（8 的倍数）。用哪档取决于关系有多紧密 */
   /* 从目前我来看，我感觉从4开始会好些，80基本上没用过 */
@@ -47,61 +50,95 @@
   --radius-m: 8px;
   --radius-l: 16px;
 
-  /* 两种阴影 */
-  /* --shadow-raised: 0 1px 3px rgb(0 0 0 / 10%);
-  --shadow-overlay: 0 8px 24px rgb(0 0 0 / 16%); */
+  /* 按下用 press，其余一律 ui */
+  --dur-press: 0.1s;
+  --dur-ui: 0.2s;
+  --scale-press: 0.93;
 
   /* 遮罩 */
   --scrim: rgb(0 0 0 / 50%);
 
   /*品牌色*/
-  --text-brand: rgb(0 60 128 / 100%); /*HSB(212,100,50)*/
-  --stroke-strong-brand: rgb(0 60 128 / 80%);
-  --stroke-weak-brand: rgb(0 60 128 / 40%);
-  --fill-brand: rgb(0 60 128 / 20%);
+  --text-brand: #195ba6; /*HSB(212,85,65)*/
+  --stroke-strong-brand: rgb(25 91 166 / 80%);
+  --stroke-weak-brand: rgb(25 91 166 / 20%);
+  --fill-brand: rgb(25 91 166 / 10%);
+
+  /* 系统色 */
+  --text-error: rgb(199 58 58 / 100%); /* HSB(0,71,78) */
+  --stroke-strong-error: rgb(199 58 58 / 80%);
+  --stroke-weak-error: rgb(199 58 58 / 20%);
+  --fill-error: rgb(199 58 58 / 10%);
+
+  --text-warning: rgb(143 108 26 / 100%); /* HSB(42,82,56) */
+  --stroke-strong-warning: rgb(143 108 26 / 80%);
+  --stroke-weak-warning: rgb(143 108 26 / 20%);
+  --fill-warning: rgb(143 108 26 / 10%);
+
+  --text-success: rgb(6 122 88 / 100%); /* HSB(162,95,48) */
+  --stroke-strong-success: rgb(6 122 88 / 80%);
+  --stroke-weak-success: rgb(6 122 88 / 20%);
+  --fill-success: rgb(6 122 88 / 10%);
 
   /* 面：实色背景 */
-  --background-base: #e6e6e6; /* HSB(0,0,90) */
-  --background-raised: #ededed; /* HSB(0,0,93) */
-  --background-overlay: #ffffff; /* HSB(0,0,100) */
+  --background-base: #dfe2e6; /* HSB(212,3,90) */
+  --background-raised: #ebeef2; /* HSB(212,3,95) */
+  --background-overlay: #f7fbff; /* HSB(212,3,100) */
 
   /* 前景：黑的透明度 */
-  /*--text-strong: rgb(0 0 0 / 90%); /*标题，正文*/
-  /*--text-weak: rgb(0 0 0 / 70%); /*次要文字*/
-  /*--stroke-strong: rgb(0 0 0 / 45%); /*控件边框，图标*/
-  /*--stroke-weak: rgb(0 0 0 / 10%); /*分割线，装饰*/
-  /*--fill: rgb(0 0 0 / 4%); /*次级背景,单个小元素的底*/
-
-  --text-strong: rgb(21 29 38 / 90%); /* 	HSB(212,45,15) */
-  --text-weak: rgb(28 39 51 / 70%); /* 	HSB(212,45,20) */
-  --stroke-strong: rgb(42 58 77 / 55%); /* 	HSB(212,45,30) */
-  --stroke-weak: rgb(56 78 102 / 20%); /* 	HSB(212,45,40) */
-  --fill: rgb(70 97 128 / 10%); /* 	HSB(212,45,50) */
+  --text-solid: rgb(0, 0, 0);
+  --text-inverse: rgb(255, 255, 255);
+  --text-strong: rgb(0 0 0 / 90%); /*标题，正文*/
+  --text-weak: rgb(0 0 0 / 70%); /*次要文字*/
+  --stroke-strong: rgb(0 0 0 / 45%); /*控件边框，图标*/
+  --stroke-weak: rgb(0 0 0 / 15%); /*分割线，装饰*/
+  --fill: rgb(0 0 0 / 6%); /*次级背景,单个小元素的底*/
 }
 
 [data-theme="dark"] {
-  --text-brand: rgb(155 196 242 / 100%); /*HSB(212,36,95)*/
-  --stroke-strong-brand: rgb(155 196 242 / 80%);
-  --stroke-weak-brand: rgb(155 196 242 / 40%);
-  --fill-brand: rgb(155 196 242 / 20%);
+  --text-brand: #a1c1e6; /*HSB(212,30,90)*/
+  --stroke-strong-brand: rgb(119 165 217 / 80%);
+  --stroke-weak-brand: rgb(119 165 217 / 20%);
+  --fill-brand: rgb(119 165 217 / 10%);
 
-  /* 单色灰 */
-  /* --background-base: #1a1a1a; /* HSB(0,0,10) */
-  /* --background-raised: #262626; /* HSB(0,0,15) */
-  /* --background-overlay: #333333; /* HSB(0,0,20) */
+  --text-error: rgb(255 156 156 / 100%); /* HSB(0,39,100) */
+  --stroke-strong-error: rgb(255 156 156 / 80%);
+  --stroke-weak-error: rgb(255 156 156 / 20%);
+  --fill-error: rgb(255 156 156 / 10%);
 
-  --background-base: #1d2126; /* HSB(212, 25, 15) */
-  --background-raised: #292e33; /* HSB(212, 20, 20) */
-  --background-overlay: #363b40; /* HSB(212, 15, 25) */
+  --text-warning: rgb(224 191 112 / 100%); /* HSB(42,50,88) */
+  --stroke-strong-warning: rgb(224 191 112 / 80%);
+  --stroke-weak-warning: rgb(224 191 112 / 20%);
+  --fill-warning: rgb(224 191 112 / 10%);
+
+  --text-success: rgb(119 199 175 / 100%); /* HSB(162,40,78) */
+  --stroke-strong-success: rgb(119 199 175 / 80%);
+  --stroke-weak-success: rgb(119 199 175 / 20%);
+  --fill-success: rgb(119 199 175 / 10%);
+
+  /*--background-base: #1d2126; /* HSB(212, 25, 15) */
+  /*--background-raised: #292e33; /* HSB(212, 20, 20) */
+  /*--background-overlay: #363b40; /* HSB(212, 15, 25) */
+
+  --background-base: #17181a; /* HSB(212,10,10) */
+  --background-raised: #222426; /* HSB(212,10,15) */
+  --background-overlay: #2e3033; /* HSB(212,10,20) */
 
   /* 前景：白的透明度 */
-  --text-strong: rgb(255 255 255 / 80%);
-  --text-weak: rgb(255 255 255 / 65%);
+  --text-solid: rgb(255, 255, 255);
+  --text-inverse: rgb(0, 0, 0);
+  --text-strong: rgb(255 255 255 / 90%);
+  --text-weak: rgb(255 255 255 / 70%);
   --stroke-strong: rgb(255 255 255 / 60%);
   --stroke-weak: rgb(255 255 255 / 20%);
   --fill: rgb(255 255 255 / 10%);
+}
 
-  /* 黑色主题没有阴影 */
-  --shadow-raised: none;
-  --shadow-overlay: none;
+/* 屏幕变窄时页面留白和沟收紧 */
+@media (max-width: 1024px) {
+  :root {
+    --layout-margin-block: var(--space-m);
+    --layout-gutter: var(--space-m);
+    --layout-margin-inline: var(--space-s);
+  }
 }

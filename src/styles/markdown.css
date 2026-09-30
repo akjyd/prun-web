@@ -1,102 +1,104 @@
 /**
- * 正文排版。必须全局：这里选的是 react-markdown 生成的原生标签，
- * 没有 class 可挂，只能靠 .content 后代选择器限定范围。
+ * 正文默认样式。
  *
- * 写法约定同 layout.css：选择器扁平写全，不嵌套。
+ * @scope (.content) to (.not-md)
+ *   起点：.content
+ *   终点：.not-md —— 这个元素本身和它的所有后代都被排除在作用域外
+ * 于是组件只要在根元素挂 .not-md，就可以避免被命中
+ *
  */
 
-/* 锚点跳转时把标题从固定顶栏下面让出来，否则会被盖住 */
-.content :is(h1, h2, h3, h4, h5, h6) {
-  scroll-margin-top: var(--header-height);
-}
+@scope (.content) to (.not-md) {
+  /* 锚点跳转时把标题从固定顶栏下面让出来，否则会被盖住 */
+  :is(h1, h2, h3, h4, h5, h6) {
+    scroll-margin-top: var(--header-height);
+  }
 
-/* ==========================================================
-   表格
-   ========================================================== */
+  /* ==========================================================
+     表格
+     ========================================================== */
 
-.content table {
-  width: 100%;
-  /* 必须先写：默认的 separate 会让相邻单元格各画各的边，出现双线和缝隙 */
-  border-collapse: collapse;
+  table {
+    width: 100%;
+    /* 去掉双线 */
+    border-collapse: collapse;
 
-  /* 表格是密集数据，用小一档字号 */
-  font-size: var(--text-small);
-  line-height: var(--leading-small);
-  color: var(--text-weak);
-}
+    font-size: var(--text-small);
+    line-height: var(--leading-small);
+    color: var(--text-weak);
+  }
 
-/* 斑马纹防串行。必须限定在 tbody，否则表头会被算进奇偶 */
-.content table tbody tr:nth-child(even) {
-  background-color: var(--fill);
-}
+  /* 斑马纹 */
+  table tbody tr:nth-child(even) {
+    background-color: var(--fill);
+  }
 
-/* 表格线是装饰性的：去掉之后它还是表格（靠行列对齐识别），所以用 weak */
-.content table tr {
-  border-bottom: 1px solid var(--stroke-weak);
-}
+  table tr {
+    border-bottom: 1px solid var(--stroke-weak);
+  }
 
-.content th,
-.content td {
-  padding: var(--space-xs) var(--space-s);
+  th,
+  td {
+    padding: var(--space-xs) var(--space-s);
 
-  text-align: start;
-}
+    text-align: start;
+  }
 
-.content th {
-  font-weight: bold;
-}
+  th {
+    font-weight: bold;
+  }
 
-/* ==========================================================
-   代码
-   ========================================================== */
+  /* ==========================================================
+     代码
+     ========================================================== */
 
-.content code,
-.content pre {
-  font-family: var(--font-mono);
-}
+  code,
+  pre {
+    font-family: var(--font-mono);
+  }
 
-.content code {
-  padding: 2px var(--space-xs);
+  code {
+    padding: 2px var(--space-xs);
 
-  background-color: var(--fill);
-  border-radius: var(--radius-s);
+    background-color: var(--fill);
+    border-radius: var(--radius-s);
 
-  /* 用 em 不用 rem：跟着所在位置的字号缩放，出现在标题里就跟标题走 */
-  font-size: 0.9em;
-  color: var(--text-weak);
-}
+    font-size: 0.9em;
+    color: var(--text-weak);
+  }
 
-.content pre {
-  padding: var(--space-s);
+  pre {
+    padding: var(--space-s);
 
-  background-color: var(--fill);
-  border-radius: var(--radius-m);
+    background-color: var(--fill);
+    border-radius: var(--radius-m);
 
-  font-size: var(--text-small);
-  line-height: var(--leading-small);
-}
+    font-size: var(--text-small);
+    line-height: var(--leading-small);
+  }
 
-/* 代码块里的 code 不要再叠一层底 */
-.content pre code {
-  padding: 0;
+  /* 代码块里的 code 不要再叠一层背景。 */
+  pre code {
+    padding: 0;
 
-  background-color: transparent;
+    background-color: transparent;
 
-  font-size: inherit;
-}
+    font-size: inherit;
+  }
 
-/* ==========================================================
-   折叠块
-   ========================================================== */
+  /* ==========================================================
+     折叠块
+     ========================================================== */
 
-.content details {
-  padding: var(--space-xs);
+  details {
+    padding: var(--space-xs);
 
-  border-left: 1px solid var(--stroke-strong);
+    border-left: 1px solid var(--stroke-strong);
 
-  cursor: pointer;
-}
+    cursor: pointer;
+  }
 
-.content details:hover {
-  background-color: var(--fill);
+  details:hover {
+    background-color: var(--fill);
+  }
 }

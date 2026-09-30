@@ -1,0 +1,84 @@
+@layer components {
+  .header {
+    position: sticky;
+    z-index: 1;
+    top: 0;
+
+    display: flex;
+    align-items: center;
+    gap: var(--space-l);
+    height: var(--header-height);
+    padding-inline: var(--layout-margin-inline);
+
+    background-color: var(--background-base);
+    border-bottom: 1px solid var(--stroke-weak);
+  }
+
+  .logo {
+    position: relative;
+
+    padding: var(--space-xs) var(--space-s);
+
+    font-size: var(--text-h2);
+    line-height: var(--leading-h2);
+    font-weight: bold;
+    color: var(--text-brand);
+    text-decoration: none;
+
+    transition: transform var(--dur-press);
+  }
+
+  .logo::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 8px;
+    width: 0;
+    height: 1px;
+    background: currentColor;
+    transform: translateX(-50%);
+    transition: width var(--dur-ui);
+  }
+
+  .logo:hover::after {
+    width: calc(100% - var(--space-s));
+  }
+
+  .logo:active {
+    transform: scale(var(--scale-press));
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    margin-inline-start: auto;
+    gap: var(--space-xs);
+
+    color: var(--text-weak);
+  }
+
+  .header .menuButton {
+    display: none;
+  }
+
+  @media (max-width: 860px) {
+    .header {
+      gap: var(--space-xs);
+    }
+
+    /* 只在文档页收起顶栏这份 —— 主页没有抽屉，收了就一个导航入口都不剩 */
+    .header[data-in-docs="true"] .nav {
+      display: none;
+    }
+
+    .logo {
+      font-size: var(--text-h3);
+      line-height: var(--leading-h3);
+    }
+
+    /* 抽屉展开时会连同顶栏一起被盖住，关闭靠点遮罩 */
+    .header .menuButton {
+      display: flex;
+    }
+  }
+}

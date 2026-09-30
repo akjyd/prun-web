@@ -1,0 +1,134 @@
+@layer components {
+  .list {
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--space-xs);
+  }
+
+  .list.plain {
+    padding-left: var(--space-s);
+    border-left: 2px solid var(--stroke-weak);
+  }
+
+  .item {
+    /* 抓手的宽度。正文缩进需要 */
+    --grip-size: 32px;
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  /* 正文：左边空出抓手，和头一行的内容对齐 */
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-left: calc(var(--grip-size) + var(--space-xs));
+  }
+
+  .item.card {
+    padding: var(--space-s);
+    border: 1px solid var(--stroke-weak);
+    border-radius: var(--radius-m);
+    background-color: var(--background-raised);
+  }
+
+  .item.plain {
+  }
+
+  .head-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .head-body :is(input, textarea),
+  .body :is(input, textarea) {
+    width: 100%;
+  }
+
+  .remove,
+  .drag {
+    display: flex;
+    justify-content: center;
+    flex: none;
+    width: var(--grip-size);
+    padding: var(--space-xs);
+
+    border-radius: var(--radius-m);
+    color: var(--text-weak);
+
+    transition: background-color var(--dur-press);
+  }
+
+  .remove:hover {
+    background-color: var(--fill);
+    color: var(--text-error);
+  }
+
+  .remove:active {
+    background-color: var(--stroke-weak);
+  }
+
+  .drag {
+    cursor: grab;
+    /* 手指按住抓手不要触发页面滚动 */
+    touch-action: none;
+  }
+
+  .drag:hover {
+    color: var(--text-strong);
+  }
+
+  .drag:active {
+    cursor: grabbing;
+  }
+
+  .ghost-button {
+    justify-content: start;
+  }
+
+  .empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-m);
+
+    border-radius: var(--radius-m);
+    background-color: var(--fill);
+  }
+
+  .empty-hint {
+    font-size: var(--text-tiny);
+    line-height: var(--leading-tiny);
+    color: var(--text-weak);
+  }
+
+  /* ---------- 拖动排序的插入线 ---------- */
+
+  /* 画在目标项的上边 */
+  .item[data-insert]::before {
+    content: "";
+    display: block;
+    height: 2px;
+    margin-bottom: var(--space-xs);
+    background-color: var(--text-brand);
+  }
+
+  /* 插到末尾：挂在最后一项下面 */
+  .list[data-insert-end] > .item:last-of-type::after {
+    content: "";
+    display: block;
+    height: 2px;
+    margin-top: var(--space-xs);
+    background-color: var(--text-brand);
+  }
+}

@@ -1,0 +1,105 @@
+@layer components {
+  /* 搜索触发器。宽屏上扮成输入框，窄屏退回普通图标按钮。
+     它叠在 IconButton 的 .button 之上，两者争 border-radius。
+     .trigger 写两遍是故意的：把特异度顶到 (0,2,0)，否则跨文件
+     同特异度只能靠打包顺序决胜，而那由 import 的先后决定 */
+
+  .trigger.trigger {
+    justify-content: space-between;
+    min-width: 200px;
+    margin-right: var(--space-xs);
+    border: 1px solid var(--stroke-weak);
+
+    background-color: var(--fill);
+
+    border-radius: var(--radius-l);
+  }
+
+  .trigger.trigger:hover {
+    border-color: var(--stroke-strong);
+  }
+
+  .trigger.trigger:active {
+    background-color: var(--stroke-weak);
+  }
+
+  /* 顶栏塞不下，退回普通图标按钮 */
+  @media (max-width: 860px) {
+    .trigger.trigger {
+      min-width: 0;
+      margin-right: 0;
+
+      background-color: transparent;
+      border-color: transparent;
+      border-radius: var(--radius-m);
+    }
+
+    .trigger.trigger:hover {
+      border-color: transparent;
+    }
+  }
+
+  /* 字符级标记，比字号阶梯最小档还小，所以用 em 不套阶梯 */
+  .kbd {
+    flex: none;
+    padding: var(--space-xxs) var(--space-xs);
+
+    font-size: 0.8em;
+    line-height: 1;
+  }
+
+  /* 手机上没有物理键盘，键位提示没有意义 */
+  @media (max-width: 860px) {
+    .kbd {
+      display: none;
+    }
+  }
+}
+
+@layer components {
+  /* <dialog> 只管「在哪、多大、遮罩」，内层 .panel 管长相。
+     分开是因为 <dialog> 的 display 由浏览器控制，往它身上写
+     display:flex 会和 UA 样式抢同一个属性 */
+  .dialog {
+    width: min(800px, 100dvw - var(--space-xl));
+    height: 80dvh;
+  }
+
+  .dialog::backdrop {
+    background: var(--scrim);
+  }
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+    height: 100%;
+    padding: var(--space-s);
+
+    background-color: var(--background-raised);
+    border: 1px solid var(--stroke-weak);
+    border-radius: var(--radius-m);
+
+    font-size: var(--text-small);
+    line-height: var(--leading-small);
+  }
+
+  .panel input {
+    padding: var(--space-xs) var(--space-s);
+
+    background: none;
+    background-color: var(--background-overlay);
+    border: none;
+    border-radius: var(--radius-l);
+  }
+
+  .panel input::placeholder {
+    color: var(--text-weak);
+  }
+
+  .panel input:focus-visible {
+    border: 1px solid var(--stroke-strong);
+
+    outline: none;
+  }
+}

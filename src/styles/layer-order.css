@@ -1,0 +1,13 @@
+/**
+ * 层序声明
+ *
+ * 单独成文件、且 main.tsx 里第一个 import
+ *
+ * reset      —— 地基
+ * tokens     —— 全局变量
+ * markdown   —— 正文原生标签
+ * layout     —— 骨架：顶栏、三栏、内容区网格
+ * components —— 组件
+ * overrides  —— 断点
+ */
+@layer reset, tokens, markdown, layout, components, overrides;

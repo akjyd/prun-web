@@ -1,0 +1,70 @@
+@layer components {
+  .results {
+    display: flex;
+    flex-direction: column;
+    /* 分组之间拉开；组内条目靠 .group 自己的 gap */
+    gap: var(--space-m);
+    flex: 1;
+    /* 和滚动条拉开距离 */
+    padding-inline: var(--space-xs) var(--space-s);
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--stroke-weak) transparent;
+  }
+
+  .group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  /* 分组标题只是「这些结果来自哪篇」，是标签不是内容，所以比命中本身弱 */
+  .groupTitle {
+    color: var(--text-weak);
+  }
+
+  /* 一条命中。整块可点，所以 flex + 内边距撑出触摸区，不用下划线 */
+  .hit {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs);
+    padding: var(--space-xs) var(--space-s);
+
+    /* 默认放一个透明边框：否则 data-active 时加边框会把布局撑开 2px */
+    border: 1px solid transparent;
+    border-radius: var(--radius-s);
+
+    text-decoration: none;
+
+    transition: background-color var(--dur-ui);
+  }
+
+  /* 当前选中项。鼠标和键盘共用同一个状态，所以不用 :hover */
+  .hit[data-active="true"] {
+    border: 1px solid var(--stroke-strong);
+  }
+
+  .hit:active {
+    background-color: var(--fill-brand);
+  }
+
+  .heading {
+    color: var(--text-brand);
+  }
+
+  .snippet {
+    color: var(--text-weak);
+  }
+
+  /* 命中的词。不上品牌色 —— 它不可点，上了会让人以为能点 */
+  .results mark {
+    padding-inline: var(--space-xxs);
+
+    background-color: transparent;
+
+    font-weight: bold;
+    color: var(--text-strong);
+  }
+}

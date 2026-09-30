@@ -1,0 +1,31 @@
+@layer components {
+  /* 多选框的默认样式包含背景/选中样式/交互
+     目的是为了统一多选框的形态 */
+  .label {
+    font-size: var(--text-small);
+    line-height: var(--leading-small);
+
+    display: flex;
+    gap: var(--space-xxs);
+    min-width: 80px;
+
+    background-color: var(--background-overlay);
+    padding: var(--space-xs);
+
+    &:hover {
+      background-image: linear-gradient(var(--fill), var(--fill));
+    }
+
+    &:active {
+      background-image: linear-gradient(var(--stroke-weak), var(--stroke-weak));
+    }
+
+    &:has(:checked) {
+      background-color: var(--stroke-weak-brand);
+      color: var(--text-brand);
+    }
+  }
+  .label input {
+    accent-color: var(--text-brand);
+  }
+}

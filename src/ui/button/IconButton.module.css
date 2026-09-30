@@ -1,0 +1,29 @@
+@layer components {
+  .button {
+    display: flex;
+    align-items: center;
+    padding: var(--space-xs) var(--space-s);
+
+    border-radius: var(--radius-m);
+
+    transition:
+      transform var(--dur-press),
+      background-color var(--dur-ui),
+      border-color var(--dur-ui),
+      color var(--dur-ui);
+  }
+
+  .button:hover:not(:disabled) {
+    background-color: var(--fill);
+    color: var(--text-strong);
+  }
+
+  .button:active:not(:disabled) {
+    transform: scale(var(--scale-press));
+    background-color: var(--stroke-weak);
+  }
+
+  .button > svg {
+    font-size: var(--text-h3);
+  }
+}

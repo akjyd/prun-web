@@ -1,0 +1,10 @@
+@layer components {
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .loader {
+    animation: spin 4s linear infinite;
+  }
+}

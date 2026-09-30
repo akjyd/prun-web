@@ -1,0 +1,38 @@
+@layer components {
+  /* 表单字段共用的类。Field(label) 和 CheckboxGroup(fieldset) 都 import 这个文件 */
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    user-select: none;
+
+    gap: var(--space-xxs);
+  }
+
+  .name {
+    font-weight: 700;
+  }
+
+  .messages {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs);
+  }
+
+  .hint {
+    font-size: var(--text-tiny);
+    line-height: var(--leading-tiny);
+    color: var(--text-weak);
+  }
+
+  .error-hint {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xxs);
+    font-size: var(--text-tiny);
+    line-height: var(--leading-tiny);
+    color: var(--text-error);
+  }
+}

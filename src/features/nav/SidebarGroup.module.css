@@ -1,0 +1,106 @@
+@layer components {
+  .group {
+    --chev-size: var(--text-small);
+    --rail-size: 2px;
+    /* 轨道线对齐箭头中心：箭头半宽 − 线宽一半 + 按钮左内边距 */
+    --rail-offset: calc(
+      var(--chev-size) / 2 - var(--rail-size) / 2 + var(--space-xs)
+    );
+  }
+
+  /* ---------- 分组标题 ---------- */
+
+  .head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-l);
+    width: 100%;
+    padding: var(--space-xs);
+
+    border-radius: var(--radius-s);
+
+    font-weight: bold;
+    color: var(--text-strong);
+
+    transition: background-color var(--dur-ui);
+  }
+  .head:hover {
+    background-color: var(--fill);
+  }
+
+  .head:active {
+    background-color: var(--stroke-weak);
+  }
+
+
+  .head svg {
+    font-size: var(--chev-size);
+    /* auto 吃掉剩余空间，把标题推到最右 */
+    margin-right: auto;
+
+    color: var(--stroke-strong);
+
+    transition: transform var(--dur-ui);
+  }
+
+  .head.open svg {
+    transform: rotate(90deg);
+  }
+
+  /* 圆点只在「组收起 + 当前页在组内」时出现 —— 组展开时轨道线已经指明位置。
+     用透明度而不是 display:none，否则 flex 重排会让标题跳一下 */
+  .dot {
+    flex: none;
+    width: 6px;
+    height: 6px;
+
+    background-color: currentColor;
+    border-radius: 50%;
+    opacity: 0;
+
+    transform: scale(0.5);
+    transition:
+      opacity var(--dur-ui),
+      transform var(--dur-ui);
+  }
+
+  .head.contain:not(.open) .dot {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* ---------- 组内文章 ---------- */
+
+  .panel li {
+    list-style: none;
+  }
+
+  .panel a {
+    /* block 才能占满整行，垂直 padding 也才会把相邻项推开 */
+    display: block;
+    margin-left: var(--rail-offset);
+    padding: var(--space-xs) var(--space-s);
+
+    border-left: var(--rail-size) solid var(--stroke-weak);
+
+    text-decoration: none;
+
+    transition:
+      background-color var(--dur-ui),
+      border-left var(--dur-ui),
+      color var(--dur-ui);
+  }
+
+  .panel a:hover {
+    background-color: var(--fill);
+  }
+
+  .panel a:active {
+    background-color: var(--stroke-weak);
+  }
+
+  .panel a.active {
+    color: var(--text-brand);
+    border-left: var(--rail-size) solid var(--text-brand);
+  }
+}

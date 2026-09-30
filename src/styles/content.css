@@ -1,0 +1,35 @@
+/**
+ * 正文容器。必须是全局类名 —— markdown.css 的 @scope (.content) 要选它，
+ * 哈希之后就对不上了。和 .not-md 一样属于全局约定。
+ */
+
+.content {
+  display: grid;
+  /* grid会把不满一屏的子代的高度全部拉高,所以需要start */
+  align-content: start;
+  /* 突破式网格：正文锁在 text 列，表格和代码块可以借用两侧的 wide 列 */
+  grid-template-columns:
+    [full-start] 1fr
+    [wide-start] minmax(0, 140px)
+    [text-start] min(100%, 720px) [text-end]
+    minmax(0, 140px) [wide-end]
+    1fr [full-end];
+
+  row-gap: var(--space-s);
+  /* 底部留白给内容区自己，不给三栏容器 ——
+     否则 sticky 侧栏滚到底时会被容器底边顶上去 */
+  padding-bottom: var(--space-xl);
+}
+
+.content > * {
+  grid-column: text;
+}
+
+.content > :is(table, pre, figure) {
+  grid-column: wide;
+}
+
+/* 标题属于它下面那段，所以只和上文拉开 */
+.content > :is(h1, h2, h3, h4, h5, h6) {
+  margin-block-start: var(--space-l);
+}

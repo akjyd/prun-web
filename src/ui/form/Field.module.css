@@ -1,0 +1,5 @@
+@layer components {
+  .label[data-invalid] :is(input, textarea) {
+    border-color: var(--stroke-strong-error);
+  }
+}

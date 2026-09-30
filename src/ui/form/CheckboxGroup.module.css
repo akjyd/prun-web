@@ -1,0 +1,30 @@
+@layer components {
+  .container {
+    display: flex;
+    width: fit-content;
+    touch-action: none;
+    border: 1px solid var(--stroke-weak);
+    border-radius: var(--radius-m);
+    overflow: hidden;
+  }
+
+  .list {
+    flex-direction: column;
+  }
+
+  .list label {
+    padding-left: var(--space-s);
+  }
+
+  .list label:not(:last-child) {
+    border-bottom: 1px solid var(--stroke-weak);
+  }
+
+  .segmented label {
+    justify-content: center;
+  }
+
+  .segmented label:not(:last-child) {
+    border-right: 1px solid var(--stroke-weak);
+  }
+}

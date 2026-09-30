@@ -1,0 +1,38 @@
+@layer components {
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    gap: var(--layout-gutter);
+    padding: var(--layout-margin-block) var(--layout-margin-inline) 0;
+  }
+
+  /* 不是表面层，是盖在所有东西之上、把背后压暗的一块 */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 98;
+
+    display: none;
+    background-color: var(--scrim);
+
+    cursor: pointer;
+  }
+
+  /* 右栏塞不下 */
+  @media (max-width: 1280px) {
+    .grid {
+      grid-template-columns: 1fr 3fr;
+    }
+  }
+
+  /* 单栏 + 抽屉 */
+  @media (max-width: 860px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    .overlay.open {
+      display: block;
+    }
+  }
+}

@@ -1,0 +1,7 @@
+@layer components {
+  .frontmatter {
+    font-size: var(--text-small);
+    line-height: var(--leading-small);
+    color: var(--text-weak);
+  }
+}

@@ -1,0 +1,24 @@
+@layer components {
+  .menu {
+    position-anchor: auto;
+    top: anchor(bottom);
+    right: anchor(right);
+    margin-top: var(--space-xs);
+    min-width: 200px;
+
+    background-color: var(--background-overlay);
+    border: 1px solid var(--stroke-weak);
+    border-radius: var(--radius-m);
+  }
+
+  .menu:popover-open {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs);
+  }
+
+  .menu hr {
+    border: 0;
+    border-top: 1px solid var(--stroke-weak);
+  }
+}

@@ -1,0 +1,245 @@
+@layer components {
+  .table {
+    font-size: var(--text-small);
+    line-height: var(--leading-small);
+    width: 100%;
+
+    color: var(--text-weak);
+    border: 1px solid var(--stroke-weak);
+
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: var(--radius-m);
+    overflow: hidden;
+  }
+
+  :where(.table th, .head-tr td) {
+    padding: var(--space-xs) var(--space-s);
+    text-align: start;
+  }
+
+  :where(.table th) {
+    font-weight: 400;
+  }
+
+  :where(.head-tr td) {
+    border-bottom: 1px solid var(--stroke-weak);
+    border-top: 1px solid var(--stroke-weak);
+  }
+
+  /* 可排序表头容器。箭头靠 data-sort 显隐，不只靠颜色 */
+  .sortable {
+    cursor: pointer;
+    user-select: none;
+    transition:
+      color var(--dur-ui),
+      background-color var(--dur-ui);
+  }
+
+  .sortable:hover {
+    background-color: var(--fill);
+  }
+
+  .sortable:active {
+    background-color: var(--stroke-weak);
+  }
+
+  /* 内层只排版。display:flex 不能放到 th 上 —— 那会让单元格退出表格布局 */
+  .sortable-inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xxs);
+  }
+
+  .sortable svg {
+    transition:
+      opacity var(--dur-press),
+      transform var(--dur-press);
+
+    opacity: 0;
+  }
+
+  .sortable:hover {
+    color: var(--text-strong);
+
+    svg {
+      opacity: 1;
+    }
+  }
+
+  .sortable[data-sort="desc"] svg {
+    transform: rotate(180deg);
+  }
+
+  .sortable[data-sort] {
+    color: var(--text-strong);
+
+    svg {
+      color: var(--text-brand);
+      opacity: 1;
+    }
+  }
+
+  .head-tr {
+    cursor: pointer;
+    transition: background-color var(--dur-ui);
+
+    &:hover:not(:has(.more:hover)) {
+      background-color: var(--fill);
+    }
+
+    &:active:not(:has(.more:active)) {
+      background-color: var(--stroke-weak);
+    }
+
+    &.open {
+      background-color: var(--fill-brand);
+    }
+  }
+
+  .head-tr.open .user-td svg {
+    transform: rotate(90deg);
+  }
+  .head-tr.open .user-td {
+    color: var(--text-brand);
+    font-weight: 700;
+  }
+
+  .user-td {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--text-strong);
+
+    transition: color var(--dur-ui);
+  }
+
+  /* 内层只排版。display:flex 不能放到 td 上 —— 那会让单元格退出表格布局 */
+  .user-inner {
+    display: flex;
+    gap: var(--space-xs);
+    align-items: center;
+  }
+
+  .user-td svg {
+    transition: transform var(--dur-ui);
+  }
+
+  .more-td {
+    padding: 0;
+  }
+
+  .more {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    padding: var(--space-s);
+  }
+
+  .more:hover {
+    background-color: var(--fill);
+  }
+
+  .more:active {
+    background-color: var(--stroke-weak);
+  }
+
+  /* 表格是 small，这个图标要 body 大小 */
+  .more svg {
+    font-size: var(--text-body);
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--dur-ui);
+
+    &.open {
+      grid-template-rows: 1fr;
+    }
+  }
+
+  /* 裁剪层。padding 不能写在这里 —— 它是被压扁的那个盒子，
+     padding 压不掉，收起时会剩一条 */
+  .clip {
+    overflow: hidden;
+  }
+
+  .detail-container {
+    display: flex;
+    padding: var(--space-s);
+    background-color: var(--background-raised);
+  }
+
+  .notes {
+    /* 块数不定，列数交给 auto-fit 算 */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-s);
+  }
+
+  .note {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs);
+  }
+
+  .note-title {
+    color: var(--text-strong);
+    font-weight: 700;
+  }
+
+  .note-text {
+    font-size: 14px;
+    color: var(--text-brand);
+  }
+
+  .note-items {
+    color: var(--text-weak);
+    /* 缩进要跟着字号缩放，所以用 em 不用 --space-* */
+    padding-inline-start: 1.2em;
+  }
+
+  .aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+
+    margin-left: auto;
+    flex: none;
+  }
+
+  .meta {
+    color: var(--text-weak);
+  }
+
+  .ex-links-ul {
+    li {
+      list-style: none;
+    }
+
+    a {
+      display: block;
+      color: var(--text-brand);
+      padding: var(--space-xs) 0;
+    }
+  }
+
+  .add-entry {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xxs);
+    padding: var(--space-xs) var(--space-s);
+    width: 100%;
+
+    color: var(--text-brand);
+  }
+  .add-entry:hover {
+    background-color: var(--fill);
+  }
+
+  .add-entry:active {
+    background-color: var(--stroke-weak);
+  }
+}

@@ -1,0 +1,48 @@
+@layer components {
+  .input {
+    border: 1px solid var(--stroke-strong);
+    border-radius: var(--radius-m);
+    background-color: var(--background-overlay);
+    padding: var(--space-xs);
+    width: 100%;
+
+    color: var(--text-strong);
+
+    transition: background-image var(--dur-press);
+    background-image: linear-gradient(transparent, transparent);
+
+    &:not(:disabled):hover {
+      background-image: linear-gradient(var(--fill), var(--fill));
+    }
+
+    &:not(:disabled):active {
+      background-image: linear-gradient(var(--stroke-weak), var(--stroke-weak));
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: var(--fill);
+    }
+  }
+
+  .sm {
+    padding: var(--space-xxs) var(--space-xs);
+    font-size: var(--text-tiny);
+    line-height: var(--leading-tiny);
+  }
+
+  .md {
+    font-size: var(--text-small);
+    line-height: var(--leading-small);
+  }
+
+  .lg {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+  }
+
+  .input:focus {
+    outline: 2px solid var(--text-brand);
+    outline-offset: 1px;
+  }
+}

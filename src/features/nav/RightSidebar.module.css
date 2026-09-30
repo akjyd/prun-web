@@ -1,0 +1,50 @@
+@layer components {
+  .sidebar {
+    position: sticky;
+    top: calc(var(--header-height) + var(--layout-margin-block));
+
+    display: flex;
+    flex-direction: column;
+    height: calc(100dvh - var(--header-height) - var(--layout-margin-block));
+
+    font-size: var(--text-small);
+    line-height: var(--leading-small);
+    color: var(--text-weak);
+  }
+
+  .link {
+    display: block;
+    padding: var(--space-xs);
+
+    border-radius: var(--radius-s);
+
+    text-decoration: none;
+
+    transition:
+      background-color var(--dur-press),
+      color var(--dur-press);
+  }
+
+  .link:hover {
+    background-color: var(--fill);
+    color: var(--text-strong);
+    font-weight: bold;
+  }
+  .link:active {
+    background-color: var(--stroke-weak);
+  }
+
+
+  /* 当前章节。和左栏的「轨道线 + 底色」区分开，只用字重和颜色 */
+  .link.active {
+    font-weight: bold;
+    color: var(--text-brand);
+  }
+
+  /* 塞不下就整栏收起 */
+  @media (max-width: 1280px) {
+    .sidebar {
+      display: none;
+    }
+  }
+}

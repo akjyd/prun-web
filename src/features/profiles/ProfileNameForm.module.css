@@ -1,0 +1,21 @@
+@layer components {
+  .submit-error {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xxs);
+    font-size: var(--text-tiny);
+    line-height: var(--leading-tiny);
+    color: var(--text-error);
+  }
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+
+  .actions {
+    display: flex;
+    gap: var(--space-m);
+  }
+}
